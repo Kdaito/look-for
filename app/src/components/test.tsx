@@ -1,10 +1,15 @@
 import React from 'react';
 import Button from '@mui/material/Button';
+import RequirementCard from './molecules/RequirementCard';
 
 const Test: React.FC = () => (
   <div>
-    hello
-    <Button variant='contained'>Hello world</Button>
+    <Button color='primary'>yue</Button>
+    <RequirementCard/>
+    <RequirementCard/>
+    <RequirementCard/>
+    <RequirementCard/>
+    <RequirementCard/>
   </div>
 )
 
