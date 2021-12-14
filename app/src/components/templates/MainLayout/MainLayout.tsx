@@ -12,10 +12,13 @@ import {
   ListItemText,
 } from "@mui/material";
 import {
-  MoveToInbox as InboxIcon,
-  Mail as MailIcon,
+  CreditCard as PostIcon,
+  AddCard as AddPostIcon,
+  Settings as SettingsIcon,
+  Logout as LogoutIcon,
 } from "@mui/icons-material";
 import React, { useState } from "react";
+import SidebarIcon from "../../molecules/SidebarIcon";
 
 const DRAWER_WIDTH = 240;
 
@@ -45,31 +48,44 @@ const MainLayout: React.FC = ({ children }) => {
         }}
       >
         <Toolbar />
-        <Box sx={{ overflow: "auto" }}>
+        <Box sx={{ overflow: "auto", height: "100%" }}>
+          <SidebarIcon />
+          <Divider sx={{ backgroundColor: "#0b1929" }} />
           <List>
-            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
+            <ListItem button>
+              <ListItemIcon>
+                <PostIcon />
+              </ListItemIcon>
+              <ListItemText primary={'投稿一覧'} />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <AddPostIcon />
+              </ListItemIcon>
+              <ListItemText primary={'投稿作成'} />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText primary={'ユーザー設定'} />
+            </ListItem>
           </List>
-          <Divider />
+          <Divider sx={{ backgroundColor: "#0b1929" }} />
           <List>
-            {["All mail", "Trash", "Spam"].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
+            <ListItem button>
+              <ListItemIcon>
+                <LogoutIcon />
+              </ListItemIcon>
+              <ListItemText primary={'ログアウト'} />
+            </ListItem>
           </List>
         </Box>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, p: 3, backgroundColor: "#0b1929" }}
+      >
         <Toolbar />
         {children}
       </Box>

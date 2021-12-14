@@ -4,7 +4,6 @@ import RequirementCard from './molecules/RequirementCard';
 
 const Test: React.FC = () => (
   <div>
-    <Button color='primary'>yue</Button>
     <RequirementCard/>
     <RequirementCard/>
     <RequirementCard/>

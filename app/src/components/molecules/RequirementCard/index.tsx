@@ -4,7 +4,7 @@ import React from 'react';
 
 const RequirementCard: React.VFC = () => {
   return (
-    <Card sx={{maxWidth: '400px', backgroundColor: '#333', color: '#fff'}}>
+    <Card sx={{maxWidth: '400px'}}>
       {/* <CardMedia/> */}
       <Skeleton sx={{height: 190}} animation="wave" variant="rectangular"/>
       <CardContent>
