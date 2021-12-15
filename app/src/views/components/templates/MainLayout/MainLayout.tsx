@@ -23,6 +23,9 @@ import SidebarIcon from "../../molecules/SidebarIcon";
 const DRAWER_WIDTH = 240;
 
 const MainLayout: React.FC = ({ children }) => {
+  const onClickLink = () => {
+    console.log("link clicked");
+  };
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -58,7 +61,7 @@ const MainLayout: React.FC = ({ children }) => {
               </ListItemIcon>
               <ListItemText primary={"投稿一覧"} />
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={onClickLink}>
               <ListItemIcon>
                 <AddPostIcon />
               </ListItemIcon>
@@ -90,7 +93,6 @@ const MainLayout: React.FC = ({ children }) => {
           width: "100%",
           maxWidth: "1100px",
           margin: "0 auto",
-          border: "solid 1px red",
         }}
       >
         <Toolbar />
