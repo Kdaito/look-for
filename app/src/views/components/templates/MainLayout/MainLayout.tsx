@@ -50,41 +50,48 @@ const MainLayout: React.FC = ({ children }) => {
         <Toolbar />
         <Box sx={{ overflow: "auto", height: "100%" }}>
           <SidebarIcon />
-          <Divider sx={{ backgroundColor: "#0b1929" }} />
+          <Divider />
           <List>
             <ListItem button>
               <ListItemIcon>
                 <PostIcon />
               </ListItemIcon>
-              <ListItemText primary={'投稿一覧'} />
+              <ListItemText primary={"投稿一覧"} />
             </ListItem>
             <ListItem button>
               <ListItemIcon>
                 <AddPostIcon />
               </ListItemIcon>
-              <ListItemText primary={'投稿作成'} />
+              <ListItemText primary={"投稿作成"} />
             </ListItem>
             <ListItem button>
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>
-              <ListItemText primary={'ユーザー設定'} />
+              <ListItemText primary={"ユーザー設定"} />
             </ListItem>
           </List>
-          <Divider sx={{ backgroundColor: "#0b1929" }} />
+          <Divider />
           <List>
             <ListItem button>
               <ListItemIcon>
                 <LogoutIcon />
               </ListItemIcon>
-              <ListItemText primary={'ログアウト'} />
+              <ListItemText primary={"ログアウト"} />
             </ListItem>
           </List>
         </Box>
       </Drawer>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, backgroundColor: "#0b1929" }}
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          width: "100%",
+          maxWidth: "1100px",
+          margin: "0 auto",
+          border: "solid 1px red",
+        }}
       >
         <Toolbar />
         {children}

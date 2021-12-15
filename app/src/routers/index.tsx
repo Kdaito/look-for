@@ -1,18 +1,18 @@
-import React from 'react'
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import MainLayout from '../components/templates/MainLayout/MainLayout';
-import Test from '../components/test';
+import React from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import MainLayout from "../views/components/templates/MainLayout/MainLayout";
+import RequirementList from "../views/pages/RequirementList";
 
 const Routers: React.FC = () => (
   <BrowserRouter>
     <Switch>
       <Route
         path="/"
-        render={({match: {url}}) => (
+        render={({ match: { url } }) => (
           <Switch>
             <MainLayout>
               <Route exact path={url}>
-                <Test/>
+                <RequirementList />
               </Route>
             </MainLayout>
           </Switch>
@@ -20,6 +20,6 @@ const Routers: React.FC = () => (
       />
     </Switch>
   </BrowserRouter>
-)
+);
 
 export default Routers;
