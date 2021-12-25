@@ -25,7 +25,7 @@ const RequirementCard: React.VFC = () => {
           募集開始日: 2001/12/13
         </Typography>
         <Typography mb={"10px"} variant="body2">
-          募集開始日: 2001/12/13
+          募集終了日: 2001/12/13
         </Typography>
       </CardContent>
       <CardActions>

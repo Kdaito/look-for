@@ -16,15 +16,15 @@ const Routers: React.FC = () => (
         <SignUp />
       </Route>
       <Route
-        path="/"
+        path="/main"
         render={({ match: { url } }) => (
           <Switch>
             <MainLayout>
-              <Route exact path={url}>
-                <RequirementList />
-              </Route>
               <Route exact path={`${url}/register`}>
                 <RegisterRequirement />
+              </Route>
+              <Route exact path={url}>
+                <RequirementList />
               </Route>
             </MainLayout>
           </Switch>
