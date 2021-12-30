@@ -7,6 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import Field from "../../components/molecules/Field";
+import DateRangeField from "../../components/molecules/DateRangeField";
 
 const RegisterRequirement: React.VFC = () => {
   return (
@@ -29,7 +30,9 @@ const RegisterRequirement: React.VFC = () => {
           <Field label="募集内容">
             <TextField variant="outlined" fullWidth multiline rows={8} />
           </Field>
-          <Field label="募集期間">date</Field>
+          <Field label="募集期間">
+            <DateRangeField startDate={null} endDate={null} setStartDate={() => ({})} setEndDate={() => ({})}/>
+          </Field>
           <Field label="Email(連絡先)">
             <TextField variant="outlined" sx={{ width: "300px" }} />
           </Field>

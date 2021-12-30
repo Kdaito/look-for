@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Pagination, Stack, Typography } from "@mui/material";
+import { Box, Pagination, Typography } from "@mui/material";
 import RequirementCard from "../../components/molecules/RequirementCard";
 
 const RequirementList: React.VFC = () => {
