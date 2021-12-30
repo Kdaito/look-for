@@ -4,4 +4,9 @@ export type Post = {
   startDate: Date;
   endDate: Date;
   createdBy: string;
-}
+};
+
+export type Option = {
+  label: string;
+  value: number;
+};

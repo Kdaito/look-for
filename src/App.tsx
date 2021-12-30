@@ -1,5 +1,6 @@
 import React from "react";
 import Routers from "./routers";
+import type {} from "@mui/lab/themeAugmentation";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
