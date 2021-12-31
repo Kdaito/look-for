@@ -7,6 +7,6 @@ export type Post = {
 };
 
 export type Option = {
-  label: string;
-  value: number;
+  text: string;
+  value: number | null;
 };

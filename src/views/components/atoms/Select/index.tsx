@@ -38,7 +38,9 @@ const Select: React.VFC<Props> = ({
           onChange={handleChange}
         >
           {options.map((option) => (
-            <MenuItem value={option.value}>{option.label}</MenuItem>
+            <MenuItem value={option.value as number} key={option.value}>
+              {option.text}
+            </MenuItem>
           ))}
         </MuiSelect>
       </FormControl>

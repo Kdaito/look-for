@@ -9,18 +9,7 @@ import {
 import Field from "../../components/molecules/Field";
 import DateRangeField from "../../components/molecules/DateRangeField";
 import Select from "../../components/atoms/Select";
-
-// TODO 別ファイルで定義する
-const statusOptions = [
-  {
-    label: "公開",
-    value: 0,
-  },
-  {
-    label: "非公開",
-    value: 1,
-  },
-];
+import { status } from "../../../options";
 
 const RegisterRequirement: React.VFC = () => {
   return (
@@ -43,7 +32,7 @@ const RegisterRequirement: React.VFC = () => {
           <Field label="公開ステータス">
             <Select
               label="公開ステータス"
-              options={statusOptions}
+              options={status.options}
               value={0}
               onChangeValue={() => ({})}
             />
