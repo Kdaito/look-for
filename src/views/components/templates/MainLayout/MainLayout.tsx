@@ -17,15 +17,20 @@ import {
   Settings as SettingsIcon,
   Logout as LogoutIcon,
 } from "@mui/icons-material";
-import React, { useState } from "react";
+import React from "react";
+import { useHistory } from "react-router-dom";
 import SidebarIcon from "../../molecules/SidebarIcon";
+import { pathNames } from "../../../../routers/path";
 
 const DRAWER_WIDTH = 240;
 
 const MainLayout: React.FC = ({ children }) => {
-  const onClickLink = () => {
-    console.log("link clicked");
+  const history = useHistory();
+
+  const onClickLink = (path: string) => {
+    history.push(path);
   };
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -55,19 +60,19 @@ const MainLayout: React.FC = ({ children }) => {
           <SidebarIcon />
           <Divider />
           <List>
-            <ListItem button>
+            <ListItem button onClick={() => onClickLink(pathNames.main)}>
               <ListItemIcon>
                 <PostIcon />
               </ListItemIcon>
               <ListItemText primary={"投稿一覧"} />
             </ListItem>
-            <ListItem button onClick={onClickLink}>
+            <ListItem button onClick={() => onClickLink(pathNames.register)}>
               <ListItemIcon>
                 <AddPostIcon />
               </ListItemIcon>
               <ListItemText primary={"投稿作成"} />
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={() => onClickLink(pathNames.setting)}>
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>

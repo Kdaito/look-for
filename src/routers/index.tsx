@@ -5,31 +5,29 @@ import SignIn from "../views/pages/auth/SignIn";
 import SignUp from "../views/pages/auth/SignUp";
 import RegisterRequirement from "../views/pages/RegisterRequirement";
 import RequirementList from "../views/pages/RequirementList";
+import UserSetting from "../views/pages/UserSetting";
+import { pathNames } from "./path";
 
 const Routers: React.FC = () => (
   <BrowserRouter>
     <Switch>
-      <Route exact path="/auth/sign-in">
+      <Route exact path={pathNames.signIn}>
         <SignIn />
       </Route>
-      <Route exact path="/auth/sign-up">
+      <Route exact path={pathNames.signUp}>
         <SignUp />
       </Route>
-      <Route
-        path="/main"
-        render={({ match: { url } }) => (
-          <Switch>
-            <MainLayout>
-              <Route exact path={`${url}/register`}>
-                <RegisterRequirement />
-              </Route>
-              <Route exact path={url}>
-                <RequirementList />
-              </Route>
-            </MainLayout>
-          </Switch>
-        )}
-      />
+      <MainLayout>
+        <Route exact path={pathNames.main}>
+          <RequirementList />
+        </Route>
+        <Route exact path={pathNames.register}>
+          <RegisterRequirement />
+        </Route>
+        <Route exact path={pathNames.setting}>
+          <UserSetting />
+        </Route>
+      </MainLayout>
     </Switch>
   </BrowserRouter>
 );

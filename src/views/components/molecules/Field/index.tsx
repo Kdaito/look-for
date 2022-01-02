@@ -1,27 +1,57 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, SxProps } from "@mui/material";
+import { width } from "@mui/system";
 import React from "react";
 
 type Props = {
   label: string;
   children: React.ReactNode;
+  vertical?: boolean;
 };
 
-const Field: React.VFC<Props> = ({ label, children }) => {
+const rootBoxSX: SxProps = {
+  width: "100%",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+};
+
+const verticalBoxSX: SxProps = {
+  width: "100%",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  flexDirection: "column",
+  padding: "20px 0",
+};
+
+const horizontalBoxSX: SxProps = {
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "flex-start",
+  padding: "20px 0",
+};
+
+const verticalLabelSX: SxProps = {
+  margin: "10px",
+};
+
+const horizontalLabelSX: SxProps = {
+  marginRight: "20px",
+  minWidth: "200px",
+};
+
+const Field: React.VFC<Props> = ({ label, children, vertical = false }) => {
   return (
-    <Box
-      sx={{
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "column",
-        padding: "20px 0",
-      }}
-    >
-      <Typography variant="body1" sx={{ margin: "10px" }}>
-        {label}
-      </Typography>
-      {children}
+    <Box sx={rootBoxSX}>
+      <Box sx={vertical ? verticalBoxSX : horizontalBoxSX}>
+        <Typography
+          variant="body1"
+          sx={vertical ? verticalLabelSX : horizontalLabelSX}
+        >
+          {label}
+        </Typography>
+        {children}
+      </Box>
     </Box>
   );
 };

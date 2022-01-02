@@ -1,28 +1,28 @@
-import { Option } from "../types";
+import { OptionObject as OptionObjectType, Option } from "../types";
 import { statusOption } from "./list";
 
 class OptionObject {
-  protected readonly innervalue: Option[];
+  protected readonly innervalue: OptionObjectType[];
   protected readonly empty: Option = {
     text: "",
     value: null,
   };
 
-  protected constructor(value: Option[]) {
+  protected constructor(value: OptionObjectType[]) {
     this.innervalue = [...value];
   }
 
-  static create(value: Option[]) {
+  static create(value: OptionObjectType[]) {
     return new OptionObject(value);
   }
 
-  getOption(value: number | null): Option {
+  getOption(value: number | null): OptionObjectType | Option {
     if (!value) return this.empty;
     const res = this.innervalue.find((opt) => opt.value === value);
     return res || this.empty;
   }
 
-  get options(): Option[] {
+  get options(): OptionObjectType[] {
     return this.innervalue;
   }
 }
