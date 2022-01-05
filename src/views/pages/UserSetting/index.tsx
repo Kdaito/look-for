@@ -23,32 +23,16 @@ const RegisterRequirement: React.VFC = () => {
         }}
       >
         <CardContent>
-          <Field label="タイトル">
-            <TextField variant="outlined" fullWidth />
-          </Field>
-          <Field label="募集内容">
-            <TextField variant="outlined" fullWidth multiline rows={8} />
-          </Field>
-          <Field label="公開ステータス">
-            <Select
-              label="公開ステータス"
-              options={status.options}
-              value={null}
-              onChangeValue={(value) => console.log(value)}
-            />
-          </Field>
-          <Field label="募集期間">
-            <DateRangeField
-              startDate={null}
-              endDate={null}
-              setStartDate={() => ({})}
-              setEndDate={() => ({})}
-            />
-          </Field>
-          <Field label="Email(連絡先)">
+          <Field label="名前もしくは団体名">
             <TextField variant="outlined" sx={{ width: "300px" }} />
           </Field>
-          <Field label="電話番号(連絡先)">
+          <Field label="名前もしくは団体名(かな)">
+            <TextField variant="outlined" sx={{ width: "300px" }} />
+          </Field>
+          <Field label="email">
+            <TextField variant="outlined" sx={{ width: "300px" }} />
+          </Field>
+          <Field label="電話番号">
             <TextField variant="outlined" sx={{ width: "300px" }} />
           </Field>
         </CardContent>
