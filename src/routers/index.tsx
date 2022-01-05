@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import MainLayout from "../views/components/templates/MainLayout/MainLayout";
 import SignIn from "../views/pages/auth/SignIn";
 import SignUp from "../views/pages/auth/SignUp";
@@ -18,6 +18,9 @@ const Routers: React.FC = () => (
         <SignUp />
       </Route>
       <MainLayout>
+        <Route exact path="/">
+          <Redirect to={pathNames.main}/>
+        </Route>
         <Route exact path={pathNames.main}>
           <RequirementList />
         </Route>
