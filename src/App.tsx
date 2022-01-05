@@ -2,6 +2,8 @@ import React from "react";
 import Routers from "./routers";
 import type {} from "@mui/lab/themeAugmentation";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { Provider } from "react-redux";
+import store from "./stores";
 
 const theme = createTheme({
   palette: {
@@ -29,9 +31,11 @@ const theme = createTheme({
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <Routers />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <Routers />
+      </ThemeProvider>
+    </Provider>
   );
 }
 
