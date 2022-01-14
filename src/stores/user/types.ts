@@ -3,5 +3,5 @@ export type UserState = {
 };
 
 export const initialState: UserState = {
-  id: "initial state",
+  id: "",
 };
