@@ -56,9 +56,9 @@ const SignIn: React.VFC = () => {
           Look For
         </Typography>
         <Typography component="h2" variant="subtitle1" color={"#fff"}>
-          ユーザー登録
+          ユーザーログイン
         </Typography>
-        <Box sx={{ mt: 3 }} component="form" noValidate>
+        <Box sx={{ mt: 3, width: "60%" }} component="form" noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField

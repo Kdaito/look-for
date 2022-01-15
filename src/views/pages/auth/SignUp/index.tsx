@@ -122,7 +122,7 @@ const SignUp: React.VFC = () => {
                         autoComplete="given-name"
                         name="firstNameKana"
                         fullWidth
-                        label="お名前(姓) かな"
+                        label="お名前(姓) ローマ字"
                       />
                     </FieldWithStatusLabel>
                   </Grid>
@@ -132,7 +132,7 @@ const SignUp: React.VFC = () => {
                         autoComplete="given-name"
                         name="lastName"
                         fullWidth
-                        label="お名前(名)"
+                        label="お名前(名) ローマ字"
                       />
                     </FieldWithStatusLabel>
                   </Grid>
@@ -147,7 +147,7 @@ const SignUp: React.VFC = () => {
                     </FieldWithStatusLabel>
                   </Grid>
                   <Grid item xs={12}>
-                    <FieldWithStatusLabel status="required">
+                    <FieldWithStatusLabel status="optional">
                       <TextField
                         fullWidth
                         label="電話番号"
