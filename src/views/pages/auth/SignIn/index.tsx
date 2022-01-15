@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   Box,
   Button,
@@ -8,9 +8,31 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Auth } from "../../../../data/type";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { authSchema } from "../../../../validations/auth";
+import { authDefault } from "../../../../data/defaultValues";
 
 const SignIn: React.VFC = () => {
-  const handleSubmit = () => console.log("handle submit");
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { isValid, errors, isDirty },
+  } = useForm<Auth>({
+    mode: "onChange",
+    defaultValues: authDefault,
+    shouldFocusError: true,
+    resolver: yupResolver(yup.object().shape(authSchema)),
+  });
+
+  const onRegister = useCallback((data: Auth) => {
+    console.log(data);
+  }, []);
+
   return (
     <Box
       sx={{
@@ -27,39 +49,41 @@ const SignIn: React.VFC = () => {
           display: "inline-flex",
           flexDirection: "column",
           alignItems: "center",
-          maxWidth: "600px",
+          width: "800px",
         }}
       >
-        <Typography component="h1" variant="h2" color={"#fff"} mb={"15px"}>
+        <Typography component="h1" variant="h4" color={"#fff"} mb={"15px"}>
           Look For
         </Typography>
-        <Typography component="h2" variant="h5" color={"#fff"}>
+        <Typography component="h2" variant="subtitle1" color={"#fff"}>
           ユーザー登録
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Box sx={{ mt: 3 }} component="form" noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
+                error={!!errors.email}
+                helperText={errors.email?.message}
                 fullWidth
                 label="Email Address"
-                name="email"
-                autoComplete="email"
+                {...register("email")}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
+                error={!!errors.password}
+                helperText={errors.password?.message}
                 fullWidth
-                name="password"
                 label="Password"
                 type="password"
-                autoComplete="new-password"
+                {...register("password")}
               />
             </Grid>
           </Grid>
           <Button
-            type="submit"
             fullWidth
             variant="contained"
+            onClick={handleSubmit(onRegister)}
             sx={{ mt: 3, mb: 2 }}
           >
             ログインする

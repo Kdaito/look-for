@@ -1,5 +1,4 @@
 import { Box, Typography, SxProps } from "@mui/material";
-import { width } from "@mui/system";
 import React from "react";
 
 type Props = {

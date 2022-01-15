@@ -1,4 +1,4 @@
-import { OptionObject as OptionObjectType, Option } from "../types";
+import { OptionObject as OptionObjectType, Option } from "../data/type";
 import { statusOption } from "./list";
 
 class OptionObject {

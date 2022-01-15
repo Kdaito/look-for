@@ -4,7 +4,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import MuiSelect, { SelectChangeEvent } from "@mui/material/Select";
-import { OptionObject } from "../../../../types";
+import { OptionObject } from "../../../../data/type";
 
 type Props = {
   label: string;

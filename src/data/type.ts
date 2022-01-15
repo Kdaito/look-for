@@ -21,3 +21,9 @@ export type Option = {
   text: string;
   value: number | null;
 };
+
+// 認証用のタイプ
+export type Auth = {
+  email: string;
+  password: string;
+}
