@@ -5,14 +5,14 @@ import {
   Card,
   Grid,
   Link,
-  TextField,
   Typography,
   Step,
   StepLabel,
+  SxProps,
 } from "@mui/material";
-
 import Stepper from "@mui/material/Stepper";
-import FieldWithStatusLabel from "../../../components/molecules/FieldWithStatusLabel";
+import EmailAndPassword from "../../../components/organisms/registers/EmailAndPassword";
+import UserInfo from "../../../components/organisms/registers/UserInfo";
 import { useForm, FormProvider } from "react-hook-form";
 import { Auth, User } from "../../../../data/type";
 import { authDefault, userDefault } from "../../../../data/defaultValues";
@@ -20,6 +20,28 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { userSchema } from "../../../../validations/user";
 import { authSchema } from "../../../../validations/auth";
+
+const rootSx: SxProps = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  p: 4,
+};
+const cardSx: SxProps = {
+  marginTop: 8,
+  padding: "50px 25px",
+  display: "inline-flex",
+  flexDirection: "column",
+  alignItems: "center",
+  width: "800px",
+};
+const formSx: SxProps = {
+  width: "80%",
+  margin: "0 auto",
+  display: "inline-flex",
+  flexDirection: "column",
+  alignItems: "center",
+};
 
 const steps = ["ログイン情報", "ユーザー情報", "アイコン登録"];
 
@@ -30,7 +52,7 @@ const SignUp: React.VFC = () => {
     resolver: yupResolver(yup.object().shape({ ...userSchema, ...authSchema })),
   });
 
-  const { handleSubmit, register } = methods;
+  const { handleSubmit } = methods;
 
   const [activeStep, setActiveStep] = React.useState(0);
 
@@ -48,33 +70,9 @@ const SignUp: React.VFC = () => {
   }, []);
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        p: 4,
-      }}
-    >
-      <Card
-        sx={{
-          marginTop: 8,
-          padding: "50px 25px",
-          display: "inline-flex",
-          flexDirection: "column",
-          alignItems: "center",
-          width: "800px",
-        }}
-      >
-        <Box
-          sx={{
-            width: "80%",
-            margin: "0 auto",
-            display: "inline-flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
+    <Box sx={rootSx}>
+      <Card sx={cardSx}>
+        <Box sx={formSx}>
           <Typography component="h1" variant="h4" color={"#fff"}>
             Look For
           </Typography>
@@ -98,84 +96,8 @@ const SignUp: React.VFC = () => {
                 ))}
               </Stepper>
               <Box sx={{ mt: 6, mb: 3 }}>
-                {activeStep === 0 && (
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <FieldWithStatusLabel status="required">
-                        <TextField
-                          fullWidth
-                          label="メールアドレス"
-                          {...register("email")}
-                          autoComplete="email"
-                        />
-                      </FieldWithStatusLabel>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <FieldWithStatusLabel status="required">
-                        <TextField
-                          fullWidth
-                          label="パスワード"
-                          type="password"
-                          {...register("password")}
-                          autoComplete="new-password"
-                        />
-                      </FieldWithStatusLabel>
-                    </Grid>
-                  </Grid>
-                )}
-                {activeStep === 1 && (
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <FieldWithStatusLabel status="required">
-                        <TextField
-                          autoComplete="given-name"
-                          {...register("firstName")}
-                          fullWidth
-                          label="お名前(姓)"
-                        />
-                      </FieldWithStatusLabel>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <FieldWithStatusLabel status="required">
-                        <TextField
-                          autoComplete="given-name"
-                          {...register("firstNameKana")}
-                          fullWidth
-                          label="お名前(姓) ローマ字"
-                        />
-                      </FieldWithStatusLabel>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <FieldWithStatusLabel status="required">
-                        <TextField
-                          autoComplete="given-name"
-                          {...register("lastName")}
-                          fullWidth
-                          label="お名前(名)"
-                        />
-                      </FieldWithStatusLabel>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <FieldWithStatusLabel status="required">
-                        <TextField
-                          fullWidth
-                          label="お名前(名) ローマ字"
-                          {...register("lastNameKana")}
-                          autoComplete="family-name"
-                        />
-                      </FieldWithStatusLabel>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <FieldWithStatusLabel status="optional">
-                        <TextField
-                          fullWidth
-                          label="電話番号"
-                          {...register("phoneNumber")}
-                        />
-                      </FieldWithStatusLabel>
-                    </Grid>
-                  </Grid>
-                )}
+                {activeStep === 0 && <EmailAndPassword />}
+                {activeStep === 1 && <UserInfo />}
                 {activeStep === 2 && (
                   <Grid container spacing={2}>
                     <Typography>画像を選択してください</Typography>
