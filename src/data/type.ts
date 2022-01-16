@@ -27,3 +27,12 @@ export type Auth = {
   email: string;
   password: string;
 }
+
+// ユーザー情報用のタイプ
+export type User = {
+  firstName: string;
+  firstNameKana: string;
+  lastName: string;
+  lastNameKana: string;
+  phoneNumber: string;
+}

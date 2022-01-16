@@ -8,7 +8,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Auth } from "../../../../data/type";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
