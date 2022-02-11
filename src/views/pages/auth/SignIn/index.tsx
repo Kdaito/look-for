@@ -19,9 +19,7 @@ const SignIn: React.VFC = () => {
   const {
     register,
     handleSubmit,
-    control,
-    reset,
-    formState: { isValid, errors, isDirty },
+    formState: { isValid, errors },
   } = useForm<Auth>({
     mode: "onChange",
     defaultValues: authDefault,
@@ -58,14 +56,14 @@ const SignIn: React.VFC = () => {
         <Typography component="h2" variant="subtitle1" color={"#fff"}>
           ユーザーログイン
         </Typography>
-        <Box sx={{ mt: 3, width: "60%" }} component="form" noValidate>
+        <Box sx={{ mt: 3, width: "60%", maxWidth: "400px" }} component="form" noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
                 error={!!errors.email}
                 helperText={errors.email?.message}
                 fullWidth
-                label="Email Address"
+                label="メールアドレス"
                 {...register("email")}
               />
             </Grid>
@@ -74,7 +72,7 @@ const SignIn: React.VFC = () => {
                 error={!!errors.password}
                 helperText={errors.password?.message}
                 fullWidth
-                label="Password"
+                label="パスワード"
                 type="password"
                 {...register("password")}
               />
@@ -84,7 +82,8 @@ const SignIn: React.VFC = () => {
             fullWidth
             variant="contained"
             onClick={handleSubmit(onRegister)}
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 4, mb: 8 }}
+            disabled={!isValid}
           >
             ログインする
           </Button>

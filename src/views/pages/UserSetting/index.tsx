@@ -1,17 +1,36 @@
-import React, { useState } from "react";
+import React, { useCallback } from "react";
 import {
   Button,
   Card,
   CardActions,
   CardContent,
+  Grid,
   TextField,
 } from "@mui/material";
-import Field from "../../components/molecules/Field";
-import DateRangeField from "../../components/molecules/DateRangeField";
-import Select from "../../components/atoms/Select";
-import { status } from "../../../options";
+import * as yup from "yup";
+import FieldWithStatusLabel from "../../components/molecules/FieldWithStatusLabel";
+import { User } from "../../../data/type";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { userSchema } from "../../../validations/user";
+import { useForm } from "react-hook-form";
+import { userDefault } from "../../../data/defaultValues";
 
 const RegisterRequirement: React.VFC = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { isValid, errors },
+  } = useForm<User>({
+    mode: "onChange",
+    defaultValues: userDefault,
+    shouldFocusError: true,
+    resolver: yupResolver(yup.object().shape(userSchema)),
+  });
+
+  const onRegister = useCallback((data: User) => {
+    console.log(data);
+  }, []);
+
   return (
     <>
       <Card
@@ -23,26 +42,76 @@ const RegisterRequirement: React.VFC = () => {
         }}
       >
         <CardContent>
-          <Field label="名前もしくは団体名">
-            <TextField variant="outlined" sx={{ width: "300px" }} />
-          </Field>
-          <Field label="名前もしくは団体名(かな)">
-            <TextField variant="outlined" sx={{ width: "300px" }} />
-          </Field>
-          <Field label="email">
-            <TextField variant="outlined" sx={{ width: "300px" }} />
-          </Field>
-          <Field label="電話番号">
-            <TextField variant="outlined" sx={{ width: "300px" }} />
-          </Field>
+          <Grid container spacing={2} sx={{margin: "40px auto 0", width: "65%"}}>
+            <Grid item xs={12}>
+              <FieldWithStatusLabel status="required">
+                <TextField
+                  error={!!errors.firstName}
+                  helperText={errors.firstName?.message}
+                  autoComplete="given-name"
+                  {...register("firstName")}
+                  fullWidth
+                  label="お名前(姓)"
+                />
+              </FieldWithStatusLabel>
+            </Grid>
+            <Grid item xs={12}>
+              <FieldWithStatusLabel status="required">
+                <TextField
+                  error={!!errors.firstNameKana}
+                  helperText={errors.firstNameKana?.message}
+                  autoComplete="given-name"
+                  {...register("firstNameKana")}
+                  fullWidth
+                  label="お名前(姓) ローマ字"
+                />
+              </FieldWithStatusLabel>
+            </Grid>
+            <Grid item xs={12}>
+              <FieldWithStatusLabel status="required">
+                <TextField
+                  error={!!errors.lastName}
+                  helperText={errors.lastName?.message}
+                  autoComplete="given-name"
+                  {...register("lastName")}
+                  fullWidth
+                  label="お名前(名)"
+                />
+              </FieldWithStatusLabel>
+            </Grid>
+            <Grid item xs={12}>
+              <FieldWithStatusLabel status="required">
+                <TextField
+                  error={!!errors.lastNameKana}
+                  helperText={errors.lastNameKana?.message}
+                  fullWidth
+                  label="お名前(名) ローマ字"
+                  {...register("lastNameKana")}
+                  autoComplete="family-name"
+                />
+              </FieldWithStatusLabel>
+            </Grid>
+            <Grid item xs={12}>
+              <FieldWithStatusLabel status="required">
+                <TextField
+                  fullWidth
+                  label="電話番号"
+                  {...register("phoneNumber")}
+                  error={!!errors.phoneNumber}
+                  helperText={errors.phoneNumber?.message}
+                />
+              </FieldWithStatusLabel>
+            </Grid>
+          </Grid>
         </CardContent>
         <CardActions>
           <Button
             variant="contained"
             color="primary"
-            sx={{ margin: "25px auto 65px" }}
-            fullWidth
+            sx={{ margin: "25px auto 85px", width: "400px" }}
             size="large"
+            disabled={!isValid}
+            onClick={handleSubmit(onRegister)}
           >
             登録する
           </Button>

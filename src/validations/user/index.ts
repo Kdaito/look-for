@@ -1,14 +1,16 @@
 import * as yup from "yup";
 
 export const userSchema = {
-  firstName: yup.string().max(32, "32文字以下で入力してください"),
+  firstName: yup.string().max(32, "32文字以下で入力してください").required(),
   firstNameKana: yup
     .string()
+    .required()
     .matches(/^[a-z]*$/, "小文字アルファベットで入力してください")
     .max(64, "64文字以下で入力してください"),
-  lastName: yup.string().max(32, "32文字以下で入力してください"),
+  lastName: yup.string().max(32, "32文字以下で入力してください").required(),
   lastNameKana: yup
     .string()
+    .required()
     .matches(/^[a-z]*$/, "小文字アルファベットで入力してください")
     .max(64, "64文字以下で入力してください"),
   phoneNumber: yup
