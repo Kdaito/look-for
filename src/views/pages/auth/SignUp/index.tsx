@@ -6,14 +6,11 @@ import {
   Grid,
   Link,
   Typography,
-  Step,
-  StepLabel,
   SxProps,
+  TextField,
 } from "@mui/material";
-import Stepper from "@mui/material/Stepper";
-import EmailAndPassword from "../../../components/organisms/registers/EmailAndPassword";
-import UserInfo from "../../../components/organisms/registers/UserInfo";
-import { useForm, FormProvider } from "react-hook-form";
+import FieldWithStatusLabel from "../../../components/molecules/FieldWithStatusLabel";
+import { useForm } from "react-hook-form";
 import { Auth, User } from "../../../../data/type";
 import { authDefault, userDefault } from "../../../../data/defaultValues";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -43,26 +40,16 @@ const formSx: SxProps = {
   alignItems: "center",
 };
 
-const steps = ["ログイン情報", "ユーザー情報", "アイコン登録"];
-
 const SignUp: React.VFC = () => {
-  const methods = useForm<User & Auth>({
-    defaultValues: { ...userDefault, ...authDefault },
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<Auth>({
+    defaultValues: authDefault,
     mode: "onChange",
-    resolver: yupResolver(yup.object().shape({ ...userSchema, ...authSchema })),
+    resolver: yupResolver(yup.object().shape(authSchema)),
   });
-
-  const { handleSubmit } = methods;
-
-  const [activeStep, setActiveStep] = React.useState(0);
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
 
   const onRegister = useCallback((data) => {
     console.log("register");
@@ -86,63 +73,43 @@ const SignUp: React.VFC = () => {
           >
             既に登録している方はこちら
           </Link>
-          <Box sx={{ width: "100%" }} component="form" noValidate>
-            <FormProvider {...methods}>
-              <Stepper activeStep={activeStep}>
-                {steps.map((label) => (
-                  <Step key={label}>
-                    <StepLabel>{label}</StepLabel>
-                  </Step>
-                ))}
-              </Stepper>
-              <Box sx={{ mt: 6, mb: 3 }}>
-                {activeStep === 0 && <EmailAndPassword />}
-                {activeStep === 1 && <UserInfo />}
-                {activeStep === 2 && (
-                  <Grid container spacing={2}>
-                    <Typography>画像を選択してください</Typography>
-                  </Grid>
-                )}
-              </Box>
-              {activeStep === steps.length ? (
-                <>
-                  <Typography sx={{ mt: 2, mb: 1, textAlign: "center" }}>
-                    初期設定は以上です
-                  </Typography>
-                  <Button
+          <Box sx={{ width: "60%" }} component="form" noValidate>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <FieldWithStatusLabel status="required">
+                  <TextField
+                    error={!!errors.email}
+                    helperText={errors.email?.message}
                     fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                    onClick={handleSubmit(onRegister)}
-                  >
-                    登録する
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "center",
-                      pt: 2,
-                    }}
-                  >
-                    <Button
-                      disabled={activeStep === 0}
-                      onClick={handleBack}
-                      sx={{ mr: 3 }}
-                      variant="contained"
-                    >
-                      戻る
-                    </Button>
-                    <Button onClick={handleNext} variant="contained">
-                      {activeStep === steps.length - 1 ? "終了" : "次に進む"}
-                    </Button>
-                  </Box>
-                </>
-              )}
-            </FormProvider>
+                    label="メールアドレス"
+                    {...register("email")}
+                    autoComplete="email"
+                  />
+                </FieldWithStatusLabel>
+              </Grid>
+              <Grid item xs={12}>
+                <FieldWithStatusLabel status="required">
+                  <TextField
+                    error={!!errors.password}
+                    helperText={errors.password?.message}
+                    fullWidth
+                    label="パスワード"
+                    type="password"
+                    {...register("password")}
+                    autoComplete="new-password"
+                  />
+                </FieldWithStatusLabel>
+              </Grid>
+              <Button
+                fullWidth
+                variant="contained"
+                disabled={!isValid}
+                sx={{ mt: 3, mb: 8 }}
+                onClick={handleSubmit(onRegister)}
+              >
+                登録する
+              </Button>
+            </Grid>
           </Box>
         </Box>
       </Card>

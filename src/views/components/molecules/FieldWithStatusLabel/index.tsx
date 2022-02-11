@@ -18,12 +18,15 @@ const rootBoxSX: SxProps = {
 const fieldBoxSX: SxProps = {
   width: "100%",
   display: "flex",
-  alignItems: "center",
+  alignItems: "flexStart",
   justifyContent: "center",
   padding: "20px 0",
 };
 
 const statusLabelSX: SxProps = {
+  height: "30px",
+  lineHeight: "30px",
+  marginTop: "12px",
   marginRight: "30px",
   minWidth: "75px",
   textAlign: "center",
