@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import {
   Box,
   Button,
@@ -11,12 +11,16 @@ import {
 } from "@mui/material";
 import FieldWithStatusLabel from "../../../components/molecules/FieldWithStatusLabel";
 import { useForm } from "react-hook-form";
-import { Auth, User } from "../../../../data/type";
-import { authDefault, userDefault } from "../../../../data/defaultValues";
+import { Auth } from "../../../../data/type";
+import { authDefault } from "../../../../data/defaultValues";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { userSchema } from "../../../../validations/user";
 import { authSchema } from "../../../../validations/auth";
+import { createUserWithEmailAndPassword } from "../../../../api/firebase/auth";
+import { useHistory } from "react-router-dom";
+import { setUser } from "../../../../stores/user";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../../stores";
 
 const rootSx: SxProps = {
   display: "flex",
@@ -41,6 +45,9 @@ const formSx: SxProps = {
 };
 
 const SignUp: React.VFC = () => {
+  const history = useHistory();
+  const dispatch = useDispatch<AppDispatch>();
+  const [errorMessage, setErrorMessage] = useState("");
   const {
     register,
     handleSubmit,
@@ -51,10 +58,26 @@ const SignUp: React.VFC = () => {
     resolver: yupResolver(yup.object().shape(authSchema)),
   });
 
-  const onRegister = useCallback((data) => {
-    console.log("register");
-    console.log(data);
-  }, []);
+  const onRegister = useCallback(
+    (data: Auth) => {
+      createUserWithEmailAndPassword(data.email, data.password)
+        .then((userCredential) => {
+          dispatch(setUser({ id: userCredential.user.uid, auth: true }));
+          history.push("/main/");
+        })
+        .catch((error) => {
+          switch (error.code) {
+            case "auth/email-already-in-use":
+              setErrorMessage("このメールアドレスは既に使用されています");
+              break;
+            default:
+              setErrorMessage("ユーザー登録に失敗しました。");
+              break;
+          }
+        });
+    },
+    [history, dispatch]
+  );
 
   return (
     <Box sx={rootSx}>
@@ -73,6 +96,7 @@ const SignUp: React.VFC = () => {
           >
             既に登録している方はこちら
           </Link>
+          {errorMessage !== "" && <Typography>{errorMessage}</Typography>}
           <Box sx={{ width: "60%" }} component="form" noValidate>
             <Grid container spacing={2}>
               <Grid item xs={12}>

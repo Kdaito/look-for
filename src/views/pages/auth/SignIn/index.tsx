@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import {
   Box,
   Button,
@@ -14,8 +14,16 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { authSchema } from "../../../../validations/auth";
 import { authDefault } from "../../../../data/defaultValues";
+import { signInWithEmailAndPassword } from "../../../../api/firebase/auth";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../../stores";
+import { setUser } from "../../../../stores/user";
 
 const SignIn: React.VFC = () => {
+  const [errorMessage, setErrorMessage] = useState("");
+  const history = useHistory();
+  const dispatch = useDispatch<AppDispatch>();
   const {
     register,
     handleSubmit,
@@ -27,9 +35,31 @@ const SignIn: React.VFC = () => {
     resolver: yupResolver(yup.object().shape(authSchema)),
   });
 
-  const onRegister = useCallback((data: Auth) => {
-    console.log(data);
-  }, []);
+  const onRegister = useCallback(
+    (data: Auth) => {
+      signInWithEmailAndPassword(data.email, data.password)
+        .then((userCredential) => {
+          dispatch(setUser({ id: userCredential.user.uid, auth: true }));
+          history.push("/main/");
+        })
+        .catch((error) => {
+          switch (error.code) {
+            case "auth/user-not-found":
+              setErrorMessage(
+                "メールアドレスまたはパスワードが正しくありません。"
+              );
+              break;
+            case "auth/wrong-password":
+              setErrorMessage("パスワードが正しくありません。");
+              break;
+            default:
+              setErrorMessage("ログインに失敗しました。");
+              break;
+          }
+        });
+    },
+    [history, dispatch]
+  );
 
   return (
     <Box
@@ -56,7 +86,12 @@ const SignIn: React.VFC = () => {
         <Typography component="h2" variant="subtitle1" color={"#fff"}>
           ユーザーログイン
         </Typography>
-        <Box sx={{ mt: 3, width: "60%", maxWidth: "400px" }} component="form" noValidate>
+        {errorMessage !== "" && <Typography>{errorMessage}</Typography>}
+        <Box
+          sx={{ mt: 3, width: "60%", maxWidth: "400px" }}
+          component="form"
+          noValidate
+        >
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
