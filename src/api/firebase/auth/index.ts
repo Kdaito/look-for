@@ -1,6 +1,7 @@
 import {
   signInWithEmailAndPassword as signInWithEmailAndPasswordFB,
   createUserWithEmailAndPassword as createUserWithEmailAndPasswordFB,
+  signOut as signOutFB,
   UserCredential,
 } from "firebase/auth";
 import { auth } from "../setting";
@@ -16,3 +17,5 @@ export const createUserWithEmailAndPassword = async (
   password: string
 ): Promise<UserCredential> =>
   createUserWithEmailAndPasswordFB(auth, email, password);
+
+export const signOut = (): Promise<void> => signOutFB(auth);

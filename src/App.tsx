@@ -4,6 +4,7 @@ import type {} from "@mui/lab/themeAugmentation";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Provider } from "react-redux";
 import store from "./stores";
+import AuthProvider from "./providers/authProvider";
 
 const theme = createTheme({
   palette: {
@@ -33,7 +34,9 @@ function App() {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <Routers />
+        <AuthProvider>
+          <Routers />
+        </AuthProvider>
       </ThemeProvider>
     </Provider>
   );

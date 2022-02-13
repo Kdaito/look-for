@@ -17,15 +17,17 @@ import {
   Settings as SettingsIcon,
   Logout as LogoutIcon,
 } from "@mui/icons-material";
-import React from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import SidebarIcon from "../../molecules/SidebarIcon";
 import { pathNames } from "../../../../routers/path";
+import { AuthContext } from "../../../../providers/authProvider";
 
 const DRAWER_WIDTH = 240;
 
 const MainLayout: React.FC = ({ children }) => {
   const history = useHistory();
+  const { signOut } = useContext(AuthContext);
 
   const onClickLink = (path: string) => {
     history.push(path);
@@ -81,7 +83,7 @@ const MainLayout: React.FC = ({ children }) => {
           </List>
           <Divider />
           <List>
-            <ListItem button>
+            <ListItem button onClick={signOut}>
               <ListItemIcon>
                 <LogoutIcon />
               </ListItemIcon>

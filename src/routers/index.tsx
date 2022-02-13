@@ -6,30 +6,32 @@ import SignUp from "../views/pages/auth/SignUp";
 import RegisterRequirement from "../views/pages/RegisterRequirement";
 import RequirementList from "../views/pages/RequirementList";
 import UserSetting from "../views/pages/UserSetting";
+import PrivateRoute from "./privateRoute";
+import AuthRoute from "./authRoute";
 import { pathNames } from "./path";
 
 const Routers: React.FC = () => (
   <BrowserRouter>
     <Switch>
-      <Route exact path={pathNames.signIn}>
+      <AuthRoute exact path={pathNames.signIn}>
         <SignIn />
-      </Route>
-      <Route exact path={pathNames.signUp}>
+      </AuthRoute>
+      <AuthRoute exact path={pathNames.signUp}>
         <SignUp />
-      </Route>
+      </AuthRoute>
       <MainLayout>
-        <Route exact path="/">
-          <Redirect to={pathNames.main}/>
-        </Route>
-        <Route exact path={pathNames.main}>
+        <PrivateRoute exact path="/">
+          <Redirect to={pathNames.main} />
+        </PrivateRoute>
+        <PrivateRoute exact path={pathNames.main}>
           <RequirementList />
-        </Route>
-        <Route exact path={pathNames.register}>
+        </PrivateRoute>
+        <PrivateRoute exact path={pathNames.register}>
           <RegisterRequirement />
-        </Route>
-        <Route exact path={pathNames.setting}>
+        </PrivateRoute>
+        <PrivateRoute exact path={pathNames.setting}>
           <UserSetting />
-        </Route>
+        </PrivateRoute>
       </MainLayout>
     </Switch>
   </BrowserRouter>
