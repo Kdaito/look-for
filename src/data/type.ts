@@ -32,6 +32,10 @@ export type Auth = {
 
 // ユーザー情報用のタイプ
 export type User = {
+  id: string,
+  data: UserData,
+}
+export type UserData = {
   firstName: string;
   firstNameKana: string;
   lastName: string;

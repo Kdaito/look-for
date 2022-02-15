@@ -15,5 +15,5 @@ const firebaseConfig = {
 const fb = initializeApp(firebaseConfig);
 
 export const auth = getAuth(fb);
-export const store = getFirestore(fb);
+export const db = getFirestore(fb);
 export const storage = getStorage(fb);
