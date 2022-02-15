@@ -18,7 +18,7 @@ import { signInWithEmailAndPassword } from "../../../../api/firebase/auth";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../stores";
-import { setUser } from "../../../../stores/user";
+import { setAuth } from "../../../../stores/auth";
 
 const SignIn: React.VFC = () => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -39,7 +39,7 @@ const SignIn: React.VFC = () => {
     (data: Auth) => {
       signInWithEmailAndPassword(data.email, data.password)
         .then((userCredential) => {
-          dispatch(setUser({ id: userCredential.user.uid, auth: true }));
+          dispatch(setAuth({ id: userCredential.user.uid, auth: true }));
           history.push("/main/");
         })
         .catch((error) => {

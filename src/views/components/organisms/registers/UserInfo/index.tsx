@@ -2,13 +2,13 @@ import React from "react";
 import { Grid, TextField } from "@mui/material";
 import FieldWithStatusLabel from "../../../molecules/FieldWithStatusLabel";
 import { useFormContext } from "react-hook-form";
-import { User } from "../../../../../data/type";
+import { UserData } from "../../../../../data/type";
 
 const UserInfo: React.VFC = () => {
   const {
     register,
     formState: { errors },
-  } = useFormContext<User>();
+  } = useFormContext<UserData>();
 
   return (
     <Grid container spacing={2}>

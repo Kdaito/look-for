@@ -4,7 +4,7 @@ import { signOut as signOutFB } from "../api/firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../stores";
-import { resetUser, setUser } from "../stores/user";
+import { resetAuth, setAuth } from "../stores/auth";
 import { useHistory } from "react-router-dom";
 import { pathNames } from "../routers/path";
 
@@ -21,9 +21,9 @@ const AuthProvider: React.FC = ({ children }) => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        dispatch(setUser({ id: user.uid, auth: true }));
+        dispatch(setAuth({ id: user.uid, auth: true }));
       } else {
-        dispatch(resetUser());
+        dispatch(resetAuth());
       }
       setIsCheckedAuth(true);
     });
@@ -33,7 +33,7 @@ const AuthProvider: React.FC = ({ children }) => {
     await signOutFB()
       .then(() => {
         history.push({ pathname: pathNames.signIn });
-        dispatch(resetUser());
+        dispatch(resetAuth());
       })
       .catch(() => alert("ログアウトに失敗しました"));
   }, [dispatch, history]);

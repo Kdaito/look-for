@@ -18,7 +18,7 @@ import * as yup from "yup";
 import { authSchema } from "../../../../validations/auth";
 import { createUserWithEmailAndPassword } from "../../../../api/firebase/auth";
 import { useHistory } from "react-router-dom";
-import { setUser } from "../../../../stores/user";
+import { setAuth } from "../../../../stores/auth";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../stores";
 
@@ -62,7 +62,7 @@ const SignUp: React.VFC = () => {
     (data: Auth) => {
       createUserWithEmailAndPassword(data.email, data.password)
         .then((userCredential) => {
-          dispatch(setUser({ id: userCredential.user.uid, auth: true }));
+          dispatch(setAuth({ id: userCredential.user.uid, auth: true }));
           history.push("/main/");
         })
         .catch((error) => {

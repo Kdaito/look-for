@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import * as yup from "yup";
 import FieldWithStatusLabel from "../../components/molecules/FieldWithStatusLabel";
-import { User } from "../../../data/type";
+import { UserData} from "../../../data/type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { userSchema } from "../../../validations/user";
 import { useForm } from "react-hook-form";
@@ -20,14 +20,14 @@ const RegisterRequirement: React.VFC = () => {
     register,
     handleSubmit,
     formState: { isValid, errors },
-  } = useForm<User>({
+  } = useForm<UserData>({
     mode: "onChange",
     defaultValues: userDefault,
     shouldFocusError: true,
     resolver: yupResolver(yup.object().shape(userSchema)),
   });
 
-  const onRegister = useCallback((data: User) => {
+  const onRegister = useCallback((data: UserData) => {
     console.log(data);
   }, []);
 
