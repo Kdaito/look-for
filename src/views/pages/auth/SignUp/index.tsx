@@ -65,7 +65,7 @@ const SignUp: React.VFC = () => {
       createUserWithEmailAndPassword(data.email, data.password)
         .then(async (userCredential) => {
           const { uid, email } = userCredential.user;
-          dispatch(setAuth({ id: uid, auth: true }));
+          dispatch(setAuth({ id: uid, email: email || "", auth: true }));
           const newUser = {
             ...userDefault,
             email,

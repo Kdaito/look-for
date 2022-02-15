@@ -27,7 +27,7 @@ const AuthProvider: React.FC = ({ children }) => {
         setIsCheckedAuth(true);
         return;
       }
-      dispatch(setAuth({ id: user.uid, auth: true }));
+      dispatch(setAuth({ id: user.uid, email: user.email || "", auth: true }));
       const innerPromise = async () => {
         await loadUser(user.uid).then((res) => dispatch(setUser(res.data)));
       };

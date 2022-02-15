@@ -40,7 +40,13 @@ const SignIn: React.VFC = () => {
     (data: Auth) => {
       signInWithEmailAndPassword(data.email, data.password)
         .then((userCredential) => {
-          dispatch(setAuth({ id: userCredential.user.uid, auth: true }));
+          dispatch(
+            setAuth({
+              id: userCredential.user.uid,
+              email: userCredential.user.email || "",
+              auth: true,
+            })
+          );
           history.push(pathNames.main);
         })
         .catch((error) => {
@@ -125,7 +131,10 @@ const SignIn: React.VFC = () => {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link onClick={() => history.push(pathNames.signUp)} variant="body2">
+              <Link
+                onClick={() => history.push(pathNames.signUp)}
+                variant="body2"
+              >
                 まだ登録していない方はこちら
               </Link>
             </Grid>

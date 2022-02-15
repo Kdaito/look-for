@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import Requirement from "../../components/organisms/registers/Requirement";
 import { requirementDefault } from "../../../data/defaultValues";
 import { RequirementData } from "../../../data/type";
@@ -9,11 +9,23 @@ import { useHistory } from "react-router-dom";
 import { pathNames } from "../../../routers/path";
 
 const RegisterRequirement: React.VFC = () => {
-  const { id } = useSelector((s: State) => s.auth);
+  const { id, email } = useSelector((s: State) => s.auth);
+  const { phoneNumber } = useSelector((s: State) => s.user);
   const history = useHistory();
+
+  // 初期値を設定する
+  const requirement = useMemo(
+    () => ({
+      ...requirementDefault,
+      createdBy: id,
+      email,
+      phoneNumber,
+    }),
+    [email, id, phoneNumber]
+  );
+
   const onSubmit = useCallback(
     async (data: RequirementData) => {
-      // firestoreに登録
       await createRequirement(id, data)
         .then(() => {
           history.push(pathNames.main);
@@ -28,7 +40,7 @@ const RegisterRequirement: React.VFC = () => {
   return (
     <>
       <Requirement
-        defaultValues={requirementDefault}
+        defaultValues={requirement}
         buttonLabel="作成する"
         onSubmit={onSubmit}
       />
