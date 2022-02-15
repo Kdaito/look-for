@@ -5,7 +5,7 @@ import { State } from "../stores";
 import { pathNames } from "./path";
 
 const AuthRoute: React.VFC<RouteProps> = ({ children, ...props }) => {
-  const { auth } = useSelector((s: State) => s.user);
+  const { auth } = useSelector((s: State) => s.auth);
   return (
     <Route
       {...props}
