@@ -7,6 +7,8 @@ import { AppDispatch } from "../stores";
 import { resetAuth, setAuth } from "../stores/auth";
 import { useHistory } from "react-router-dom";
 import { pathNames } from "../routers/path";
+import { resetUser, setUser } from "../stores/user";
+import { loadUser } from "../api/firebase/user";
 
 type SignOut = {
   signOut?: () => void;
@@ -20,11 +22,20 @@ const AuthProvider: React.FC = ({ children }) => {
   const history = useHistory();
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      if (user) {
-        dispatch(setAuth({ id: user.uid, auth: true }));
-      } else {
+      if (!user) {
         dispatch(resetAuth());
+        setIsCheckedAuth(true);
+        return;
       }
+      dispatch(setAuth({ id: user.uid, auth: true }));
+      const innerPromise = async () => {
+        await loadUser(user.uid)
+          .then((res) => dispatch(setUser(res.data)))
+      };
+      innerPromise().catch((e) => {
+        console.error(e);
+        alert("ユーザーの取得に失敗しました");
+      });
       setIsCheckedAuth(true);
     });
   }, [dispatch]);
@@ -34,6 +45,7 @@ const AuthProvider: React.FC = ({ children }) => {
       .then(() => {
         history.push({ pathname: pathNames.signIn });
         dispatch(resetAuth());
+        dispatch(resetUser());
       })
       .catch(() => alert("ログアウトに失敗しました"));
   }, [dispatch, history]);

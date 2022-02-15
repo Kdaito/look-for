@@ -12,7 +12,7 @@ import {
 import FieldWithStatusLabel from "../../../components/molecules/FieldWithStatusLabel";
 import { useForm } from "react-hook-form";
 import { Auth } from "../../../../data/type";
-import { authDefault } from "../../../../data/defaultValues";
+import { authDefault, userDefault } from "../../../../data/defaultValues";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { authSchema } from "../../../../validations/auth";
@@ -21,6 +21,7 @@ import { useHistory } from "react-router-dom";
 import { setAuth } from "../../../../stores/auth";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../stores";
+import { createUser } from "../../../../api/firebase/user";
 
 const rootSx: SxProps = {
   display: "flex",
@@ -61,8 +62,14 @@ const SignUp: React.VFC = () => {
   const onRegister = useCallback(
     (data: Auth) => {
       createUserWithEmailAndPassword(data.email, data.password)
-        .then((userCredential) => {
-          dispatch(setAuth({ id: userCredential.user.uid, auth: true }));
+        .then(async (userCredential) => {
+          const { uid, email } = userCredential.user;
+          dispatch(setAuth({ id: uid, auth: true }));
+          const newUser = {
+            ...userDefault,
+            email,
+          }
+          await createUser(uid, newUser);
           history.push("/main/");
         })
         .catch((error) => {

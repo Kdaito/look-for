@@ -1,12 +1,12 @@
 import { db } from "../setting";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { User } from "../../../data/type";
+import { UserData, User } from "../../../data/type";
 import { userDefault } from "../../../data/defaultValues";
 
 const path = "users";
 
-export const createUser = async (uid: string, target: User): Promise<void> => {
-  await setDoc(doc(db, path, uid), target.data);
+export const createUser = async (uid: string, data: UserData): Promise<void> => {
+  await setDoc(doc(db, path, uid), data);
 };
 
 export const loadUser = async (uid: string): Promise<User> => {
