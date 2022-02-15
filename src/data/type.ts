@@ -1,12 +1,14 @@
 // 投稿用のタイプ
-export type Post = {
+export type Requirement = {
   title: string;
   text: string;
   status: number | null;
-  startDate: Date;
-  endDate: Date;
+  period: {
+    startDate: Date | null;
+    endDate: Date | null;
+  };
   email: string;
-  phoneNumber: number;
+  phoneNumber: string;
   createdBy: string;
 };
 
@@ -26,7 +28,7 @@ export type Option = {
 export type Auth = {
   email: string;
   password: string;
-}
+};
 
 // ユーザー情報用のタイプ
 export type User = {
@@ -35,4 +37,4 @@ export type User = {
   lastName: string;
   lastNameKana: string;
   phoneNumber: string;
-}
+};

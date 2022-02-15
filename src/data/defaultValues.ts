@@ -1,4 +1,4 @@
-import { Auth, User } from "./type";
+import { Auth, User, Requirement } from "./type";
 
 export const authDefault: Auth = {
   email: "",
@@ -6,9 +6,22 @@ export const authDefault: Auth = {
 };
 
 export const userDefault: User = {
-  firstName: '',
-  firstNameKana: '',
-  lastName: '',
-  lastNameKana: '',
-  phoneNumber: '',
-}
+  firstName: "",
+  firstNameKana: "",
+  lastName: "",
+  lastNameKana: "",
+  phoneNumber: "",
+};
+
+export const requirementDefault: Requirement = {
+  title: "",
+  text: "",
+  status: null,
+  period: {
+    startDate: null,
+    endDate: null,
+  },
+  email: "",
+  phoneNumber: "",
+  createdBy: "",
+};

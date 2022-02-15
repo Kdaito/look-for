@@ -25,7 +25,7 @@ const verticalBoxSX: SxProps = {
 
 const horizontalBoxSX: SxProps = {
   display: "inline-flex",
-  alignItems: "center",
+  alignItems: "flex-start",
   justifyContent: "flex-start",
   padding: "20px 0",
 };
@@ -36,7 +36,11 @@ const verticalLabelSX: SxProps = {
 
 const horizontalLabelSX: SxProps = {
   marginRight: "20px",
+  marginTop: "15px",
   minWidth: "200px",
+};
+const verticalFieldSX: SxProps = {
+  width: "100%",
 };
 
 const Field: React.VFC<Props> = ({ label, children, vertical = false }) => {
@@ -49,7 +53,7 @@ const Field: React.VFC<Props> = ({ label, children, vertical = false }) => {
         >
           {label}
         </Typography>
-        {children}
+        <Box sx={vertical ? verticalFieldSX : undefined}>{children}</Box>
       </Box>
     </Box>
   );
