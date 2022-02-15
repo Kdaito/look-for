@@ -21,7 +21,7 @@ import { useHistory } from "react-router-dom";
 import { setAuth } from "../../../../stores/auth";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../stores";
-import { createUser } from "../../../../api/firebase/user";
+import { createUser } from "../../../../api/firebase/firestore/user";
 import { pathNames } from "../../../../routers/path";
 
 const rootSx: SxProps = {

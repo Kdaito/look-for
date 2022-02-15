@@ -15,12 +15,12 @@ import Select from "../../../atoms/Select";
 import ErrorMessage from "../../../molecules/ErrorMessage";
 import { status } from "../../../../../options";
 import { useForm, Controller } from "react-hook-form";
-import { Requirement as RequirementType } from "../../../../../data/type";
+import { RequirementData } from "../../../../../data/type";
 
 type Props = {
-  defaultValues: RequirementType;
+  defaultValues: RequirementData;
   buttonLabel: string;
-  onSubmit: (data: RequirementType) => void;
+  onSubmit: (data: RequirementData) => void;
 };
 
 const Requirement: React.VFC<Props> = ({
@@ -32,15 +32,13 @@ const Requirement: React.VFC<Props> = ({
     control,
     handleSubmit,
     reset,
-    formState: { errors, isValid },
-  } = useForm<RequirementType>({
+    formState: { isValid },
+  } = useForm<RequirementData>({
     mode: "onChange",
     defaultValues,
     shouldFocusError: true,
     resolver: yupResolver(yup.object().shape(requirementSchema)),
   });
-
-  useEffect(() => console.log(errors), [errors]);
 
   useEffect(() => {
     reset(defaultValues);

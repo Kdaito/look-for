@@ -5,7 +5,10 @@ import { userDefault } from "../../../data/defaultValues";
 
 const path = "users";
 
-export const createUser = async (uid: string, data: UserData): Promise<void> => {
+export const createUser = async (
+  uid: string,
+  data: UserData
+): Promise<void> => {
   await setDoc(doc(db, path, uid), data);
 };
 

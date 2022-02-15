@@ -1,4 +1,4 @@
-import { Auth, Requirement, UserData } from "./type";
+import { Auth, RequirementData, UserData } from "./type";
 
 export const authDefault: Auth = {
   email: "",
@@ -13,7 +13,7 @@ export const userDefault: UserData = {
   phoneNumber: "",
 };
 
-export const requirementDefault: Requirement = {
+export const requirementDefault: RequirementData = {
   title: "",
   text: "",
   status: null,

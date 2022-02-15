@@ -8,7 +8,7 @@ import { resetAuth, setAuth } from "../stores/auth";
 import { useHistory } from "react-router-dom";
 import { pathNames } from "../routers/path";
 import { resetUser, setUser } from "../stores/user";
-import { loadUser } from "../api/firebase/user";
+import { loadUser } from "../api/firebase/firestore/user";
 
 type SignOut = {
   signOut?: () => void;

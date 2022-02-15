@@ -1,17 +1,3 @@
-// 投稿用のタイプ
-export type Requirement = {
-  title: string;
-  text: string;
-  status: number | null;
-  period: {
-    startDate: Date | null;
-    endDate: Date | null;
-  };
-  email: string;
-  phoneNumber: string;
-  createdBy: string;
-};
-
 // オプションのオブジェクト用のタイプ(valueにnullなし)
 export type OptionObject = {
   text: string;
@@ -32,13 +18,31 @@ export type Auth = {
 
 // ユーザー情報用のタイプ
 export type User = {
-  id: string,
-  data: UserData,
-}
+  id: string;
+  data: UserData;
+};
 export type UserData = {
   firstName: string;
   firstNameKana: string;
   lastName: string;
   lastNameKana: string;
   phoneNumber: string;
+};
+
+// 投稿用のタイプ
+export type Requirement = {
+  id: string;
+  data: RequirementData;
+};
+export type RequirementData = {
+  title: string;
+  text: string;
+  status: number | null;
+  period: {
+    startDate: Date | null;
+    endDate: Date | null;
+  };
+  email: string;
+  phoneNumber: string;
+  createdBy: string;
 };
