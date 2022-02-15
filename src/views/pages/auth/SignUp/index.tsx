@@ -22,6 +22,7 @@ import { setAuth } from "../../../../stores/auth";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../stores";
 import { createUser } from "../../../../api/firebase/user";
+import { pathNames } from "../../../../routers/path";
 
 const rootSx: SxProps = {
   display: "flex",
@@ -68,9 +69,9 @@ const SignUp: React.VFC = () => {
           const newUser = {
             ...userDefault,
             email,
-          }
+          };
           await createUser(uid, newUser);
-          history.push("/main/");
+          history.push(pathNames.main);
         })
         .catch((error) => {
           switch (error.code) {
@@ -97,7 +98,7 @@ const SignUp: React.VFC = () => {
             ユーザー登録
           </Typography>
           <Link
-            href="/auth/sign-in"
+            onClick={() => history.push(pathNames.signIn)}
             variant="body2"
             sx={{ margin: "10px 0 30px" }}
           >

@@ -19,6 +19,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../stores";
 import { setAuth } from "../../../../stores/auth";
+import { pathNames } from "../../../../routers/path";
 
 const SignIn: React.VFC = () => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -40,7 +41,7 @@ const SignIn: React.VFC = () => {
       signInWithEmailAndPassword(data.email, data.password)
         .then((userCredential) => {
           dispatch(setAuth({ id: userCredential.user.uid, auth: true }));
-          history.push("/main/");
+          history.push(pathNames.main);
         })
         .catch((error) => {
           switch (error.code) {
@@ -124,7 +125,7 @@ const SignIn: React.VFC = () => {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="/auth/sign-up" variant="body2">
+              <Link onClick={() => history.push(pathNames.signUp)} variant="body2">
                 まだ登録していない方はこちら
               </Link>
             </Grid>

@@ -29,8 +29,7 @@ const AuthProvider: React.FC = ({ children }) => {
       }
       dispatch(setAuth({ id: user.uid, auth: true }));
       const innerPromise = async () => {
-        await loadUser(user.uid)
-          .then((res) => dispatch(setUser(res.data)))
+        await loadUser(user.uid).then((res) => dispatch(setUser(res.data)));
       };
       innerPromise().catch((e) => {
         console.error(e);
@@ -41,13 +40,11 @@ const AuthProvider: React.FC = ({ children }) => {
   }, [dispatch]);
 
   const signOut = useCallback(async () => {
-    await signOutFB()
-      .then(() => {
-        history.push({ pathname: pathNames.signIn });
-        dispatch(resetAuth());
-        dispatch(resetUser());
-      })
-      .catch(() => alert("ログアウトに失敗しました"));
+    await signOutFB().then(() => {
+      dispatch(resetAuth());
+      dispatch(resetUser());
+      history.push({ pathname: pathNames.signIn });
+    });
   }, [dispatch, history]);
 
   return (
