@@ -12,6 +12,13 @@ export const createUser = async (
   await setDoc(doc(db, path, uid), data);
 };
 
+export const updateUser = async (
+  uid: string,
+  data: UserData
+): Promise<void> => {
+  await setDoc(doc(db, path, uid), data, { merge: true });
+};
+
 export const loadUser = async (uid: string): Promise<User> => {
   const docSnap = await getDoc(doc(db, path, uid));
   if (!docSnap.exists()) {

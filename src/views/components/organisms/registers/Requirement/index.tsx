@@ -32,7 +32,7 @@ const Requirement: React.VFC<Props> = ({
     control,
     handleSubmit,
     reset,
-    formState: { isValid, errors },
+    formState: { isValid, errors, isDirty },
   } = useForm<RequirementData>({
     mode: "onChange",
     defaultValues,
@@ -188,7 +188,7 @@ const Requirement: React.VFC<Props> = ({
           sx={{ margin: "25px auto 65px", width: "500px" }}
           size="large"
           onClick={handleSubmit(onSubmit)}
-          disabled={!isValid}
+          disabled={!isValid || !isDirty}
         >
           {buttonLabel}
         </Button>
