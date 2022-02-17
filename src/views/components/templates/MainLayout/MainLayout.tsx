@@ -22,11 +22,14 @@ import { useHistory } from "react-router-dom";
 import SidebarIcon from "../../molecules/SidebarIcon";
 import { pathNames } from "../../../../routers/path";
 import { AuthContext } from "../../../../providers/authProvider";
+import { useSelector } from "react-redux";
+import { State } from "../../../../stores";
 
 const DRAWER_WIDTH = 240;
 
 const MainLayout: React.FC = ({ children }) => {
   const history = useHistory();
+  const userData = useSelector((s: State) => s.user);
   const { signOut } = useContext(AuthContext);
 
   const onClickLink = (path: string) => {
@@ -59,7 +62,7 @@ const MainLayout: React.FC = ({ children }) => {
       >
         <Toolbar />
         <Box sx={{ overflow: "auto", height: "100%" }}>
-          <SidebarIcon />
+          <SidebarIcon userData={userData} />
           <Divider />
           <List>
             <ListItem button onClick={() => onClickLink(pathNames.main)}>

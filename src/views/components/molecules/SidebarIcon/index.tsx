@@ -1,8 +1,13 @@
 import React from "react";
 import Icon from "@mui/icons-material/AccountCircle";
 import { Box, Typography } from "@mui/material";
+import { UserData } from "../../../../data/type";
 
-const SidebarIcon: React.FC = () => (
+type Props = {
+  userData: UserData;
+};
+
+const SidebarIcon: React.VFC<Props> = ({ userData }) => (
   <Box
     sx={{
       display: "flex",
@@ -13,8 +18,8 @@ const SidebarIcon: React.FC = () => (
     }}
   >
     <Icon sx={{ fontSize: "150px" }} />
-    <Typography variant="h5">小林大斗</Typography>
-    <Typography>kobayashi hiroto</Typography>
+    <Typography variant="h5">{`${userData.firstName}${userData.lastName}`}</Typography>
+    <Typography>{`${userData.firstNameKana} ${userData.lastNameKana}`}</Typography>
   </Box>
 );
 
