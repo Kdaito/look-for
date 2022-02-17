@@ -13,14 +13,26 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Modal from "../../atoms/Modal";
+import { Requirement } from "../../../../data/type";
+import { getStringDate } from "../../../../modules/date";
 
-const email = "kdaito@gmail.com";
-const phoneNumber = "000-0000-0000";
+type Props = {
+  requirement: Requirement;
+};
 
-const RequirementCard: React.VFC = () => {
+const RequirementCard: React.VFC<Props> = ({ requirement }) => {
   const [isModalOpen, setModalOpen] = useState(false);
+
+  const startDate = useMemo(
+    () => getStringDate(requirement.data.period.startDate),
+    [requirement.data.period.startDate]
+  );
+  const endDate = useMemo(
+    () => getStringDate(requirement.data.period.endDate),
+    [requirement.data.period.endDate]
+  );
 
   return (
     <>
@@ -40,38 +52,44 @@ const RequirementCard: React.VFC = () => {
                 <TableBody>
                   <TableRow>
                     <TableCell component="th" scope="row">
-                      email
+                      <Typography>email</Typography>
                     </TableCell>
                     <TableCell align="left" scope="row">
-                      {email}
+                      {requirement.data.email}
                     </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell component="th" scope="row">
-                      電話番号
+                      <Typography>電話番号</Typography>
                     </TableCell>
-                    <TableCell align="left">{phoneNumber}</TableCell>
+                    <TableCell align="left">
+                      {requirement.data.phoneNumber}
+                    </TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
             </TableContainer>
           </Box>
         </Modal>
-        {/* <CardMedia/> */}
         <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />
         <CardContent>
-          <Typography textAlign={"center"} my={"20px"} variant="h6">
-            名古屋市の少年サッカーチームのメンバー募集
+          <Typography
+            my={"20px"}
+            variant="h6"
+            sx={{ height: "30px", overflow: "hidden", textAlign: "center" }}
+          >
+            {requirement.data.title}
           </Typography>
-          <Typography variant="body1">
-            名古屋市北区の名古屋北公園で毎週水曜日と金曜日の17:00から練習をしております。サッカーを楽しみたいというかた、募集中です!
+          <Typography
+            variant="body1"
+            sx={{ height: "100px", overflow: "hidden" }}
+          >
+            {requirement.data.text}
           </Typography>
           <Typography mt={"10px"} variant="body2">
-            募集開始日: 2001/12/13
+            募集開始日: {startDate}
           </Typography>
-          <Typography mb={"10px"} variant="body2">
-            募集終了日: 2001/12/13
-          </Typography>
+          <Typography variant="body2">募集終了日: {endDate}</Typography>
         </CardContent>
         <CardActions>
           <Button
