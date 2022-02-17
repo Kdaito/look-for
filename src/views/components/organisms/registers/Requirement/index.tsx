@@ -32,7 +32,7 @@ const Requirement: React.VFC<Props> = ({
     control,
     handleSubmit,
     reset,
-    formState: { isValid },
+    formState: { isValid, errors },
   } = useForm<RequirementData>({
     mode: "onChange",
     defaultValues,
@@ -117,7 +117,14 @@ const Requirement: React.VFC<Props> = ({
                     onChange(newPeriod);
                   }}
                 />
-                <ErrorMessage isError={!!error} errorMessage={error?.message} />
+                <ErrorMessage
+                  isError={!!errors.period?.startDate}
+                  errorMessage={errors?.period?.startDate?.message}
+                />
+                <ErrorMessage
+                  isError={!!errors.period?.endDate}
+                  errorMessage={errors?.period?.endDate?.message}
+                />
               </>
             )}
           />
