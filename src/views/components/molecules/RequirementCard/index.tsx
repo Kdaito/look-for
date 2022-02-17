@@ -20,9 +20,15 @@ import { getStringDate } from "../../../../modules/date";
 
 type Props = {
   requirement: Requirement;
+  isAuthor: boolean;
+  onClickEdit?: (id: string) => void;
 };
 
-const RequirementCard: React.VFC<Props> = ({ requirement }) => {
+const RequirementCard: React.VFC<Props> = ({
+  requirement,
+  isAuthor,
+  onClickEdit,
+}) => {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const startDate = useMemo(
@@ -92,14 +98,25 @@ const RequirementCard: React.VFC<Props> = ({ requirement }) => {
           <Typography variant="body2">募集終了日: {endDate}</Typography>
         </CardContent>
         <CardActions>
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ margin: "0 auto 15px" }}
-            onClick={() => setModalOpen(true)}
-          >
-            連絡する
-          </Button>
+          {isAuthor && onClickEdit ? (
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ margin: "0 auto 15px" }}
+              onClick={() => onClickEdit(requirement.id)}
+            >
+              編集する
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ margin: "0 auto 15px" }}
+              onClick={() => setModalOpen(true)}
+            >
+              連絡する
+            </Button>
+          )}
         </CardActions>
       </Card>
     </>

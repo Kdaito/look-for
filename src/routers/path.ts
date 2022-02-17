@@ -6,5 +6,6 @@ export const pathNames = {
   signUp: "/auth/sign-up",
   main: mainPath,
   register: `${mainPath}/register`,
+  edit: `${mainPath}/:id/edit`,
   setting: `${mainPath}/setting`,
 };

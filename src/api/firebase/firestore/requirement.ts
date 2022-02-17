@@ -1,5 +1,12 @@
 import { db } from "../setting";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+} from "firebase/firestore";
 import { requirementDefault } from "../../../data/defaultValues";
 import { RequirementData, Requirement } from "../../../data/type";
 
@@ -10,6 +17,25 @@ export const createRequirement = async (
   data: RequirementData
 ): Promise<void> => {
   await addDoc(collection(db, getPath(uid)), data);
+};
+
+export const updateRequirement = async (
+  uid: string,
+  requirementId: string,
+  data: RequirementData
+): Promise<void> => {
+  await setDoc(doc(db, getPath(uid), requirementId), data, { merge: true });
+};
+
+export const loadRequirement = async (
+  uid: string,
+  requirementId: string
+): Promise<Requirement> => {
+  const docSnap = await getDoc(doc(db, getPath(uid), requirementId));
+  if (!docSnap.exists) {
+    throw new Error("該当のデータが見つかりませんでした");
+  }
+  return { id: docSnap.id, data: { ...requirementDefault, ...docSnap.data() } };
 };
 
 // 自分が投稿した募集を全て取得する

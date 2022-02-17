@@ -1,14 +1,15 @@
 import React from "react";
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import MainLayout from "../views/components/templates/MainLayout/MainLayout";
-import SignIn from "../views/pages/auth/SignIn";
-import SignUp from "../views/pages/auth/SignUp";
-import RegisterRequirement from "../views/pages/RegisterRequirement";
-import RequirementList from "../views/pages/RequirementList";
-import UserSetting from "../views/pages/UserSetting";
+import { BrowserRouter, Switch, Redirect } from "react-router-dom";
 import PrivateRoute from "./privateRoute";
 import AuthRoute from "./authRoute";
 import { pathNames } from "./path";
+import SignIn from "../views/pages/auth/SignIn";
+import SignUp from "../views/pages/auth/SignUp";
+import UserSetting from "../views/pages/UserSetting";
+import RequirementList from "../views/pages/RequirementList";
+import EditRequirement from "../views/pages/EditRequirement";
+import RegisterRequirement from "../views/pages/RegisterRequirement";
+import MainLayout from "../views/components/templates/MainLayout/MainLayout";
 
 const Routers: React.FC = () => (
   <BrowserRouter>
@@ -28,6 +29,9 @@ const Routers: React.FC = () => (
         </PrivateRoute>
         <PrivateRoute exact path={pathNames.register}>
           <RegisterRequirement />
+        </PrivateRoute>
+        <PrivateRoute exact path={pathNames.edit}>
+          <EditRequirement />
         </PrivateRoute>
         <PrivateRoute exact path={pathNames.setting}>
           <UserSetting />
