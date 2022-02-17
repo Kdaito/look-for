@@ -7,9 +7,11 @@ import { useSelector } from "react-redux";
 import { State } from "../../../stores";
 import { Requirement } from "../../../data/type";
 import { pathNames } from "../../../routers/path";
+import { CircularProgress } from "@mui/material";
 
 const RequirementList: React.VFC = () => {
   const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
   const [requirements, setRequirements] = useState<Requirement[]>([]);
   const { id } = useSelector((s: State) => s.auth);
   const history = useHistory();
@@ -19,6 +21,7 @@ const RequirementList: React.VFC = () => {
     const innerPromise = async () => {
       await loadAllOfMyRequirements(id).then((res) => {
         setRequirements(res);
+        setIsLoading(false);
       });
     };
     innerPromise().catch((e) => {
@@ -32,43 +35,63 @@ const RequirementList: React.VFC = () => {
 
   return (
     <>
-      <Typography variant="h3" textAlign="center" mb="20px">
-        投稿一覧
-      </Typography>
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(330px, 330px))",
-          gap: "40px 20px",
-          margin: "0 auto",
-        }}
-      >
-        {requirements.length !== 0 &&
-          requirements.map((requirement) => (
-            <RequirementCard
-              requirement={requirement}
-              key={requirement.id}
-              isAuthor
-              onClickEdit={(id) => {
-                const path = generatePath(pathNames.edit, {
-                  id,
-                });
-                history.push(path);
-              }}
+      {isLoading ? (
+        <Box
+          sx={{
+            width: "100%",
+            height: "calc(100vh - 65px)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <CircularProgress size={200} />
+        </Box>
+      ) : (
+        <>
+          <Typography variant="h3" textAlign="center" mb="20px">
+            投稿一覧
+          </Typography>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(330px, 330px))",
+              gap: "40px 20px",
+              margin: "0 auto",
+            }}
+          >
+            {requirements.length !== 0 &&
+              requirements.map((requirement) => (
+                <RequirementCard
+                  requirement={requirement}
+                  key={requirement.id}
+                  isAuthor
+                  onClickEdit={(id) => {
+                    const path = generatePath(pathNames.edit, {
+                      id,
+                    });
+                    history.push(path);
+                  }}
+                />
+              ))}
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Pagination
+              count={10}
+              color="primary"
+              page={page}
+              onChange={onChangePage}
+              sx={{ my: "40px" }}
             />
-          ))}
-      </Box>
-      <Box
-        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
-      >
-        <Pagination
-          count={10}
-          color="primary"
-          page={page}
-          onChange={onChangePage}
-          sx={{ my: "40px" }}
-        />
-      </Box>
+          </Box>
+        </>
+      )}
     </>
   );
 };
