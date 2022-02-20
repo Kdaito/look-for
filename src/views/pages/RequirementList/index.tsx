@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { generatePath, useHistory } from "react-router-dom";
 import { Box, Pagination, Typography } from "@mui/material";
 import RequirementCard from "../../components/molecules/RequirementCard";
@@ -15,6 +15,20 @@ const RequirementList: React.VFC = () => {
   const [requirements, setRequirements] = useState<Requirement[]>([]);
   const { id } = useSelector((s: State) => s.auth);
   const history = useHistory();
+
+  const MAX_DISPLAY = 10;
+
+  const pageCount = useMemo(() => {
+    return Math.ceil(requirements.length / MAX_DISPLAY);
+  }, [requirements]);
+
+  const requirementsOnDisplay = useMemo(() => {
+    const result = requirements.slice(
+      (page - 1) * MAX_DISPLAY,
+      page * MAX_DISPLAY
+    );
+    return result;
+  }, [requirements, page]);
 
   // ユーザーの募集投稿を全て取得する
   useEffect(() => {
@@ -60,8 +74,8 @@ const RequirementList: React.VFC = () => {
               margin: "0 auto",
             }}
           >
-            {requirements.length !== 0 &&
-              requirements.map((requirement) => (
+            {requirementsOnDisplay.length !== 0 &&
+              requirementsOnDisplay.map((requirement) => (
                 <RequirementCard
                   requirement={requirement}
                   key={requirement.id}
@@ -83,7 +97,7 @@ const RequirementList: React.VFC = () => {
             }}
           >
             <Pagination
-              count={10}
+              count={pageCount}
               color="primary"
               page={page}
               onChange={onChangePage}
