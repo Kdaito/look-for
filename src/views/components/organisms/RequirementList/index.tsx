@@ -42,7 +42,16 @@ const RequirementList: React.VFC<Props> = ({
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(330px, 330px))",
+          gridTemplateColumns: {
+            md: "repeat(2, minmax(0, 1fr))",
+            lg: "repeat(3, minmax(0, 1fr))",
+          },
+          width: {
+            xs: "350px",
+            sm: "350px",
+            md: "700px",
+            lg: "100%",
+          },
           gap: "40px 20px",
           margin: "0 auto",
         }}
