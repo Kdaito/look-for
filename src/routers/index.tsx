@@ -1,7 +1,7 @@
 import React from "react";
-import { BrowserRouter, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Switch } from "react-router-dom";
 import PrivateRoute from "./privateRoute";
-import AuthRoute from "./authRoute";
+import NonUserRoute from "./NonUserRoute";
 import { pathNames } from "./path";
 import SignIn from "../views/pages/auth/SignIn";
 import SignUp from "../views/pages/auth/SignUp";
@@ -9,21 +9,25 @@ import UserSetting from "../views/pages/UserSetting";
 import RequirementList from "../views/pages/RequirementList";
 import EditRequirement from "../views/pages/EditRequirement";
 import RegisterRequirement from "../views/pages/RegisterRequirement";
-import MainLayout from "../views/components/templates/MainLayout/MainLayout";
+import MainLayout from "../views/components/templates/MainLayout";
+import NonUserLayout from "../views/components/templates/NonUserLayout";
+import Home from "../views/pages/Home";
 
 const Routers: React.FC = () => (
   <BrowserRouter>
     <Switch>
-      <AuthRoute exact path={pathNames.signIn}>
+      <NonUserRoute exact path={pathNames.home}>
+        <NonUserLayout>
+          <Home />
+        </NonUserLayout>
+      </NonUserRoute>
+      <NonUserRoute exact path={pathNames.signIn}>
         <SignIn />
-      </AuthRoute>
-      <AuthRoute exact path={pathNames.signUp}>
+      </NonUserRoute>
+      <NonUserRoute exact path={pathNames.signUp}>
         <SignUp />
-      </AuthRoute>
+      </NonUserRoute>
       <MainLayout>
-        <PrivateRoute exact path="/">
-          <Redirect to={pathNames.main} />
-        </PrivateRoute>
         <PrivateRoute exact path={pathNames.main}>
           <RequirementList />
         </PrivateRoute>

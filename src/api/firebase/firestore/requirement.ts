@@ -2,6 +2,7 @@ import { db } from "../setting";
 import {
   addDoc,
   collection,
+  collectionGroup,
   doc,
   getDoc,
   getDocs,
@@ -36,6 +37,17 @@ export const loadRequirement = async (
     throw new Error("該当のデータが見つかりませんでした");
   }
   return { id: docSnap.id, data: { ...requirementDefault, ...docSnap.data() } };
+};
+
+// 全ての募集を取得する
+export const loadAllRequirements = async (): Promise<Requirement[]> => {
+  const docSnaps = await getDocs(collectionGroup(db, "requirement"));
+  const result: Requirement[] = [];
+  docSnaps.forEach((doc) => {
+    if (!doc.exists) return;
+    result.push({ id: doc.id, data: { ...requirementDefault, ...doc.data() } });
+  });
+  return result;
 };
 
 // 自分が投稿した募集を全て取得する
