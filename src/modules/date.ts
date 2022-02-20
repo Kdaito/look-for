@@ -11,7 +11,7 @@ export const getStringDate = (date: Timestamp | Date | null): string => {
   const formatDate = timestampToDate(date);
   if (!formatDate) return "設定されていません";
   const year = formatDate.getFullYear();
-  const month = formatDate.getDate();
-  const day = formatDate.getDay();
-  return `${year}年${month}月${day}日`;
+  const month = formatDate.getMonth();
+  const day = formatDate.getDate();
+  return `${year}年${month + 1}月${day}日`;
 };
