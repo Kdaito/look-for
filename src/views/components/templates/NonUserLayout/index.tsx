@@ -29,6 +29,14 @@ const MainLayout: React.FC = ({ children }) => {
             color="inherit"
             size="large"
             sx={{ marginRight: "20px" }}
+            onClick={() => onClickLink(pathNames.home)}
+          >
+            投稿一覧
+          </Button>
+          <Button
+            color="inherit"
+            size="large"
+            sx={{ marginRight: "20px" }}
             onClick={() => onClickLink(pathNames.signIn)}
           >
             ログイン

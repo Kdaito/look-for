@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import * as yup from "yup";
 import FieldWithStatusLabel from "../../components/molecules/FieldWithStatusLabel";
+import FileUploader from "../../components/atoms/FileUploader";
 import { UserData } from "../../../data/type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { userSchema } from "../../../validations/user";
@@ -54,8 +55,7 @@ const RegisterRequirement: React.VFC = () => {
     <>
       <Card
         sx={{
-          width: "80%",
-          maxWidth: "1000px",
+          width: "850px",
           margin: "0 auto",
           padding: "0 40px",
         }}
@@ -66,6 +66,11 @@ const RegisterRequirement: React.VFC = () => {
             spacing={2}
             sx={{ margin: "40px auto 0", width: "65%" }}
           >
+            <Grid item xs={12}>
+              <FieldWithStatusLabel status="required">
+                <FileUploader onChange={(file, id) => console.log(file, id)} />
+              </FieldWithStatusLabel>
+            </Grid>
             <Grid item xs={12}>
               <FieldWithStatusLabel status="required">
                 <TextField
