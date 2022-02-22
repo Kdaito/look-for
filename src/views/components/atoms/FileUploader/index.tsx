@@ -1,12 +1,26 @@
-import { Box, Button, Skeleton } from "@mui/material";
+import { Box, Button, Skeleton, SxProps } from "@mui/material";
 import React, { useCallback, useEffect, useState, createRef } from "react";
 
 type Props = {
   defaultSrc?: string;
+  isIcon?: boolean;
   onChange: (file: File | null) => void;
 };
 
-const FileUploader: React.VFC<Props> = ({ onChange, defaultSrc }) => {
+const nomalSx: SxProps = { height: 210, width: "100%" };
+const iconSx: SxProps = {
+  height: 210,
+  width: 210,
+  borderRadius: 100,
+  overflow: "hidden",
+  margin: "0 auto",
+};
+
+const FileUploader: React.VFC<Props> = ({
+  onChange,
+  defaultSrc,
+  isIcon = false,
+}) => {
   const [file, setFile] = useState<File | null>(null);
   const [src, setSrc] = useState<string>("");
   const ref = createRef<HTMLInputElement>();
@@ -67,7 +81,7 @@ const FileUploader: React.VFC<Props> = ({ onChange, defaultSrc }) => {
         />
         {src !== "" ? (
           <>
-            <Box sx={{ height: 210, width: "100%" }}>
+            <Box sx={isIcon ? iconSx : nomalSx}>
               <img
                 src={src}
                 alt="selected one"
@@ -77,7 +91,7 @@ const FileUploader: React.VFC<Props> = ({ onChange, defaultSrc }) => {
             <Button
               onClick={onClickDelete}
               variant="contained"
-              sx={{ margin: "20px auto 20px" }}
+              sx={{ margin: "30px auto 0" }}
             >
               選択を取り消す
             </Button>
@@ -85,7 +99,7 @@ const FileUploader: React.VFC<Props> = ({ onChange, defaultSrc }) => {
         ) : (
           <>
             <Skeleton
-              sx={{ height: 210, width: "100%" }}
+              sx={isIcon ? iconSx : nomalSx}
               animation="wave"
               variant="rectangular"
             />

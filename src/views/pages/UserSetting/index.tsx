@@ -86,7 +86,7 @@ const RegisterRequirement: React.VFC = () => {
                   control={control}
                   name="iconFile"
                   render={({ field: { onChange } }) => (
-                    <FileUploader defaultSrc={""} onChange={onChange} />
+                    <FileUploader defaultSrc={""} onChange={onChange} isIcon />
                   )}
                 />
               </FieldWithStatusLabel>
