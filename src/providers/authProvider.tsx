@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom";
 import { pathNames } from "../routers/path";
 import { resetUser, setUser } from "../stores/user";
 import { loadUser } from "../api/firebase/firestore/user";
+import { downloadUserIconURL } from "../api/firebase/storage";
 
 type SignOut = {
   signOut?: () => void;
@@ -29,7 +30,12 @@ const AuthProvider: React.FC = ({ children }) => {
       }
       dispatch(setAuth({ id: user.uid, email: user.email || "", auth: true }));
       const innerPromise = async () => {
-        await loadUser(user.uid).then((res) => dispatch(setUser(res.data)));
+        await loadUser(user.uid).then((res) => {
+          dispatch(setUser(res.data));
+        });
+        await downloadUserIconURL(user.uid).then((res) => {
+          dispatch(setUser({ iconURL: res }));
+        });
       };
       innerPromise().catch((e) => {
         console.error(e);

@@ -17,7 +17,10 @@ import { Controller, useForm } from "react-hook-form";
 import { userDefaultForValidation } from "../../../data/defaultValues";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, State } from "../../../stores";
-import { uploadUserIcon } from "../../../api/firebase/storage";
+import {
+  downloadUserIconURL,
+  uploadUserIcon,
+} from "../../../api/firebase/storage";
 import { updateUser } from "../../../api/firebase/firestore/user";
 import { setUser } from "../../../stores/user";
 
@@ -25,6 +28,7 @@ const RegisterRequirement: React.VFC = () => {
   const userDataInStore = useSelector((s: State) => s.user);
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useSelector((s: State) => s.auth);
+  const { iconURL } = useSelector((s: State) => s.user);
 
   const {
     register,
@@ -61,6 +65,9 @@ const RegisterRequirement: React.VFC = () => {
       await updateUser(id, newData).then(() => {
         dispatch(setUser(newData));
       });
+      await downloadUserIconURL(id).then((res) => {
+        dispatch(setUser({ iconURL: res }));
+      });
     },
     [id, dispatch]
   );
@@ -81,12 +88,16 @@ const RegisterRequirement: React.VFC = () => {
             sx={{ margin: "40px auto 0", width: "65%" }}
           >
             <Grid item xs={12}>
-              <FieldWithStatusLabel status="required">
+              <FieldWithStatusLabel status="optional">
                 <Controller
                   control={control}
                   name="iconFile"
                   render={({ field: { onChange } }) => (
-                    <FileUploader defaultSrc={""} onChange={onChange} isIcon />
+                    <FileUploader
+                      defaultSrc={iconURL}
+                      onChange={onChange}
+                      isIcon
+                    />
                   )}
                 />
               </FieldWithStatusLabel>
