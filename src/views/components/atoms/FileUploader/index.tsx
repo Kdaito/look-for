@@ -1,23 +1,20 @@
 import { Box, Button, Skeleton } from "@mui/material";
 import React, { useCallback, useEffect, useState, createRef } from "react";
-import { v4 } from "uuid";
 
 type Props = {
-  defaultImage?: string;
-  onChange: (file: File | null, id: string) => void;
+  defaultSrc?: string;
+  onChange: (file: File | null) => void;
 };
 
-const FileUploader: React.VFC<Props> = ({ onChange, defaultImage }) => {
+const FileUploader: React.VFC<Props> = ({ onChange, defaultSrc }) => {
   const [file, setFile] = useState<File | null>(null);
   const [src, setSrc] = useState<string>("");
   const ref = createRef<HTMLInputElement>();
   const onFileInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files[0]) {
-        const id = v4();
-        console.log(id);
         setFile(e.target.files[0]);
-        onChange(e.target.files[0], id);
+        onChange(e.target.files[0]);
       }
     },
     [onChange]
@@ -30,14 +27,14 @@ const FileUploader: React.VFC<Props> = ({ onChange, defaultImage }) => {
   const onClickDelete = useCallback(() => {
     setFile(null);
     setSrc("");
-    onChange(null, "");
+    onChange(null);
   }, [onChange]);
 
   useEffect(() => {
-    if (defaultImage) {
-      // defaultImageがセットされていたら、URLを獲得してsetSrc
+    if (defaultSrc && defaultSrc !== "") {
+      setSrc(defaultSrc);
     }
-  }, [defaultImage]);
+  }, [defaultSrc]);
 
   useEffect(() => {
     if (!file) return;

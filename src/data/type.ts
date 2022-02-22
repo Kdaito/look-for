@@ -28,6 +28,10 @@ export type UserData = {
   lastNameKana: string;
   phoneNumber: string;
 };
+// フォーム用
+export type UserDataForValidation = UserData & {
+  iconFile: File | null;
+};
 
 // 投稿用のタイプ
 export type Requirement = {

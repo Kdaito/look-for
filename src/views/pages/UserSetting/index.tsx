@@ -10,13 +10,14 @@ import {
 import * as yup from "yup";
 import FieldWithStatusLabel from "../../components/molecules/FieldWithStatusLabel";
 import FileUploader from "../../components/atoms/FileUploader";
-import { UserData } from "../../../data/type";
+import { UserData, UserDataForValidation } from "../../../data/type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { userSchema } from "../../../validations/user";
-import { useForm } from "react-hook-form";
-import { userDefault } from "../../../data/defaultValues";
+import { Controller, useForm } from "react-hook-form";
+import { userDefaultForValidation } from "../../../data/defaultValues";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, State } from "../../../stores";
+import { uploadUserIcon } from "../../../api/firebase/storage";
 import { updateUser } from "../../../api/firebase/firestore/user";
 import { setUser } from "../../../stores/user";
 
@@ -29,23 +30,36 @@ const RegisterRequirement: React.VFC = () => {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { isValid, errors, isDirty },
-  } = useForm<UserData>({
+  } = useForm<UserDataForValidation>({
     mode: "onChange",
-    defaultValues: userDefault,
+    defaultValues: userDefaultForValidation,
     shouldFocusError: true,
     resolver: yupResolver(yup.object().shape(userSchema)),
   });
 
   useEffect(() => {
-    console.log("storeが更新されました");
-    reset(userDataInStore);
+    // バリデーション用のデータに整形する
+    const newDataForValidation: UserDataForValidation = {
+      ...userDataInStore,
+      iconFile: null,
+    };
+    reset(newDataForValidation);
   }, [userDataInStore, reset]);
 
   const onRegister = useCallback(
-    async (data: UserData) => {
-      await updateUser(id, data).then(() => {
-        dispatch(setUser(data));
+    async (data: UserDataForValidation) => {
+      const { iconFile, ...others } = data;
+      // 保存用のデータに整形する
+      const newData: UserData = {
+        ...others,
+      };
+      if (iconFile) {
+        await uploadUserIcon(iconFile, id);
+      }
+      await updateUser(id, newData).then(() => {
+        dispatch(setUser(newData));
       });
     },
     [id, dispatch]
@@ -68,7 +82,13 @@ const RegisterRequirement: React.VFC = () => {
           >
             <Grid item xs={12}>
               <FieldWithStatusLabel status="required">
-                <FileUploader onChange={(file, id) => console.log(file, id)} />
+                <Controller
+                  control={control}
+                  name="iconFile"
+                  render={({ field: { onChange } }) => (
+                    <FileUploader defaultSrc={""} onChange={onChange} />
+                  )}
+                />
               </FieldWithStatusLabel>
             </Grid>
             <Grid item xs={12}>

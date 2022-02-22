@@ -1,6 +1,7 @@
 import * as yup from "yup";
 
 export const userSchema = {
+  iconFile: yup.mixed(),
   firstName: yup.string().max(32, "32文字以下で入力してください").required(),
   firstNameKana: yup
     .string()
