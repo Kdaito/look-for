@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Requirement from "../../components/organisms/registers/Requirement";
@@ -8,9 +8,10 @@ import {
 } from "../../../api/firebase/firestore/requirement";
 import { State } from "../../../stores";
 import { requirementDefault } from "../../../data/defaultValues";
-import { RequirementData } from "../../../data/type";
+import { RequirementDataForValidation } from "../../../data/type";
 import { pathNames } from "../../../routers/path";
 import { timestampToDate } from "../../../modules/date";
+import { uploadRequirementImage } from "../../../api/firebase/storage";
 
 const EditRequirement: React.VFC = () => {
   const { id } = useParams<{ id: string }>();
@@ -44,10 +45,22 @@ const EditRequirement: React.VFC = () => {
     });
   }, [id, uid]);
 
+  const requirementForValidation: RequirementDataForValidation = useMemo(
+    () => ({
+      ...requirement.data,
+      imageFile: null,
+    }),
+    [requirement]
+  );
+
   const onSubmit = useCallback(
-    async (data: RequirementData) => {
-      await updateRequirement(uid, id, data)
-        .then(() => {
+    async (data: RequirementDataForValidation) => {
+      const { imageFile, ...others } = data;
+      await updateRequirement(uid, id, others)
+        .then(async () => {
+          if (imageFile) {
+            await uploadRequirementImage(imageFile, id);
+          }
           history.push(pathNames.main);
         })
         .catch((e) => {
@@ -61,7 +74,7 @@ const EditRequirement: React.VFC = () => {
   return (
     <>
       <Requirement
-        defaultValues={requirement.data}
+        defaultValues={requirementForValidation}
         buttonLabel="更新する"
         onSubmit={onSubmit}
       />

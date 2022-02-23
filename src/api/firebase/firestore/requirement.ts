@@ -16,8 +16,9 @@ const getPath = (uid: string) => `users/${uid}/requirement`;
 export const createRequirement = async (
   uid: string,
   data: RequirementData
-): Promise<void> => {
-  await addDoc(collection(db, getPath(uid)), data);
+): Promise<string> => {
+  const result = await addDoc(collection(db, getPath(uid)), data);
+  return result.id;
 };
 
 export const updateRequirement = async (

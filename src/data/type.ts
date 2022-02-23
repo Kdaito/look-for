@@ -50,3 +50,7 @@ export type RequirementData = {
   phoneNumber: string;
   createdBy: string;
 };
+// フォーム用
+export type RequirementDataForValidation = RequirementData & {
+  imageFile: File | null;
+};

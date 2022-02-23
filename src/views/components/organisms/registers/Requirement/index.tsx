@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import {
+  Box,
   Button,
   Card,
   CardActions,
@@ -15,12 +16,13 @@ import Select from "../../../atoms/Select";
 import ErrorMessage from "../../../molecules/ErrorMessage";
 import { status } from "../../../../../options";
 import { useForm, Controller } from "react-hook-form";
-import { RequirementData } from "../../../../../data/type";
+import { RequirementDataForValidation } from "../../../../../data/type";
+import FileUploader from "../../../atoms/FileUploader";
 
 type Props = {
-  defaultValues: RequirementData;
+  defaultValues: RequirementDataForValidation;
   buttonLabel: string;
-  onSubmit: (data: RequirementData) => void;
+  onSubmit: (data: RequirementDataForValidation) => void;
 };
 
 const Requirement: React.VFC<Props> = ({
@@ -33,7 +35,7 @@ const Requirement: React.VFC<Props> = ({
     handleSubmit,
     reset,
     formState: { isValid, errors, isDirty },
-  } = useForm<RequirementData>({
+  } = useForm<RequirementDataForValidation>({
     mode: "onChange",
     defaultValues,
     shouldFocusError: true,
@@ -87,6 +89,19 @@ const Requirement: React.VFC<Props> = ({
                   value={value}
                 />
                 <ErrorMessage isError={!!error} errorMessage={error?.message} />
+              </>
+            )}
+          />
+        </Field>
+        <Field label="イメージ画像" vertical>
+          <Controller
+            control={control}
+            name="imageFile"
+            render={({ field: { onChange } }) => (
+              <>
+                <Box sx={{ width: "350px", margin: "0 auto" }}>
+                  <FileUploader onChange={onChange} />
+                </Box>
               </>
             )}
           />

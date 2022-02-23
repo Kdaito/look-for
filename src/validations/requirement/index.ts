@@ -1,6 +1,7 @@
 import * as yup from "yup";
 
 export const requirementSchema = {
+  imageFile: yup.mixed(),
   title: yup
     .string()
     .max(20, "20文字以下で入力してください")

@@ -18,7 +18,6 @@ export const downloadUserIconURL = async (uid: string): Promise<string> => {
 
 export const uploadRequirementImage = async (
   file: File,
-  uid: string,
   requirementId: string
 ) => {
   const storageRef = ref(storage, `images/requirement/${requirementId}/src`);
