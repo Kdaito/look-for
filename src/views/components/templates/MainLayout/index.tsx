@@ -10,14 +10,16 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  IconButton,
 } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import {
   CreditCard as PostIcon,
   AddCard as AddPostIcon,
   Settings as SettingsIcon,
   Logout as LogoutIcon,
 } from "@mui/icons-material";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import SidebarIcon from "../../molecules/SidebarIcon";
 import { pathNames } from "../../../../routers/path";
@@ -31,6 +33,7 @@ const MainLayout: React.FC = ({ children }) => {
   const history = useHistory();
   const userData = useSelector((s: State) => s.user);
   const { signOut } = useContext(AuthContext);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const onClickLink = (path: string) => {
     history.push(path);
@@ -43,10 +46,30 @@ const MainLayout: React.FC = ({ children }) => {
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
-        <Toolbar>
+        <Toolbar
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
           <Typography variant="h5" noWrap component="div">
             Look For
           </Typography>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={() => setIsDrawerOpen(!isDrawerOpen)}
+            sx={{
+              display: {
+                md: "none",
+              },
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -57,6 +80,11 @@ const MainLayout: React.FC = ({ children }) => {
           [`& .MuiDrawer-paper`]: {
             width: DRAWER_WIDTH,
             boxSizing: "border-box",
+          },
+          display: {
+            xs: "none",
+            sm: "none",
+            md: "block",
           },
         }}
       >
@@ -108,6 +136,51 @@ const MainLayout: React.FC = ({ children }) => {
         <Toolbar />
         {children}
       </Box>
+      <Drawer
+        anchor="right"
+        open={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+      >
+        <Box
+          sx={{ width: 250, paddingTop: "60px" }}
+          role="presentation"
+          onClick={() => setIsDrawerOpen(false)}
+          onKeyDown={() => setIsDrawerOpen(false)}
+          component="div"
+        >
+          <SidebarIcon userData={userData} />
+          <Divider />
+          <List>
+            <ListItem button onClick={() => onClickLink(pathNames.main)}>
+              <ListItemIcon>
+                <PostIcon />
+              </ListItemIcon>
+              <ListItemText primary={"投稿一覧"} />
+            </ListItem>
+            <ListItem button onClick={() => onClickLink(pathNames.register)}>
+              <ListItemIcon>
+                <AddPostIcon />
+              </ListItemIcon>
+              <ListItemText primary={"投稿作成"} />
+            </ListItem>
+            <ListItem button onClick={() => onClickLink(pathNames.setting)}>
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText primary={"ユーザー設定"} />
+            </ListItem>
+          </List>
+          <Divider />
+          <List>
+            <ListItem button onClick={signOut}>
+              <ListItemIcon>
+                <LogoutIcon />
+              </ListItemIcon>
+              <ListItemText primary={"ログアウト"} />
+            </ListItem>
+          </List>
+        </Box>
+      </Drawer>
     </Box>
   );
 };

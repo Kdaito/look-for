@@ -43,12 +43,13 @@ const RequirementList: React.VFC<Props> = ({
         sx={{
           display: "grid",
           gridTemplateColumns: {
+            sm: "repeat(2, minmax(0, 1fr))",
             md: "repeat(2, minmax(0, 1fr))",
             lg: "repeat(3, minmax(0, 1fr))",
           },
           width: {
             xs: "350px",
-            sm: "350px",
+            sm: "600px",
             md: "700px",
             lg: "100%",
           },
