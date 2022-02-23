@@ -13,10 +13,11 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Modal from "../../atoms/Modal";
 import { Requirement } from "../../../../data/type";
 import { getStringDate } from "../../../../modules/date";
+import { downloadRequirementURL } from "../../../../api/firebase/storage";
 
 type Props = {
   requirement: Requirement;
@@ -30,6 +31,7 @@ const RequirementCard: React.VFC<Props> = ({
   onClickEdit,
 }) => {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [imageSrc, setImageSrc] = useState("");
 
   const startDate = useMemo(
     () => getStringDate(requirement.data.period.startDate),
@@ -39,6 +41,15 @@ const RequirementCard: React.VFC<Props> = ({
     () => getStringDate(requirement.data.period.endDate),
     [requirement.data.period.endDate]
   );
+
+  useEffect(() => {
+    const innerPromise = async () => {
+      await downloadRequirementURL(requirement.id).then((res) =>
+        setImageSrc(res)
+      );
+    };
+    innerPromise().catch((e) => console.error(e));
+  }, [requirement]);
 
   return (
     <>
@@ -77,7 +88,21 @@ const RequirementCard: React.VFC<Props> = ({
             </TableContainer>
           </Box>
         </Modal>
-        <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />
+        {imageSrc !== "" ? (
+          <Box sx={{ height: 190, overflow: "hidden" }}>
+            <img
+              src={imageSrc}
+              alt="requirement"
+              style={{ objectFit: "cover", width: "100%", height: "100%" }}
+            />
+          </Box>
+        ) : (
+          <Skeleton
+            sx={{ height: 190 }}
+            animation="wave"
+            variant="rectangular"
+          />
+        )}
         <CardContent>
           <Typography
             my={"20px"}
